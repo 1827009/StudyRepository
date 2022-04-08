@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 
 class ArreyTest {
+    public static string SEARCH_WORD="GOAL";
     public static ArreyTest arreyTest = new ArreyTest();
     
     private Stopwatch stopwatch=new Stopwatch();
@@ -21,40 +22,71 @@ class ArreyTest {
     public void Run(){        
         Random random=new Random();
 
-        arrey=CreateRamdonList(1000000);
-
-        DrawingList(arrey,5);
-    }
-
-    public void Search(string word){
-        stopwatch.Start();
-
-        for (int i = 0; i < word.Length; i++)
+        for (int i = 0; i < 1; i++)
         {
-            bool match=false;
-            int matchHed=0;
-            int matchBottom=arrey.Count;
-            for (int j = matchHed; j < matchBottom; j++)
-            {
-                if(!match && word[i] == arrey[j][i]){
-                    match=true;
-                    matchHed=j;
-                }
-                else if(match && word[i] != arrey[j][i]){
-                    match=false;
-                    matchBottom=j;
-                }                    
-            }
-        }
-        
+            arrey=CreateRamdonList(100000);
+            // 検索対象の追加
+            arrey[0]=ArreyTest.SEARCH_WORD;
+            arrey[4]=ArreyTest.SEARCH_WORD;
+            arrey[5]=ArreyTest.SEARCH_WORD+"TEST";
 
+            Search(ArreyTest.SEARCH_WORD);   
+            //DrawingList(arrey);   
+        }      
+        
+        stopwatch.Start();
+        int index = arrey.IndexOf(ArreyTest.SEARCH_WORD);
         stopwatch.Stop();
+        Console.WriteLine("ちなみにList検索インデックス番号："+index);
         Console.WriteLine("処理時間："+stopwatch.Elapsed.Milliseconds);
         stopwatch.Reset();
     }
+
+    public void Search(string word){
+        arrey.Sort();  
+        stopwatch.Start();
+      
+        int index = SearchIndex(word, arrey);
+
+        stopwatch.Stop();
+
+        if(index!=-1)
+            Console.WriteLine("インデックス番号："+index+"で"+arrey[index]+"を発見しました");
+        else
+            Console.WriteLine(ArreyTest.SEARCH_WORD+"を発見できませんでした");
+        Console.WriteLine("処理時間："+stopwatch.Elapsed.Milliseconds);
+
+        stopwatch.Reset();
+    }
+    private int SearchIndex(string word, List<string> dictionary, int top=0, int number=0){
+        bool match=false;
+        //Console.WriteLine("word:"+word+" top:"+top+" number:"+number);
+                
+        // １文字の一致～不一致までの範囲を調べ、再帰呼び出しで繰り替えして絞り込む
+        for (int j = top; j < dictionary.Count; j++)
+        {
+            if(!match && number < dictionary[j].Length && word[number] == dictionary[j][number]){
+                match=true;
+                top=j;
+            }
+            else if(match && (number >= dictionary[j].Length || word[number] != dictionary[j][number])){
+                if(number+1 == word.Length) {return j-1;}
+                return SearchIndex(word, dictionary, top, number+1); 
+            }
+            if (match && (j+1 == dictionary.Count || number+1 == word.Length)){
+                return j;
+            }
+
+        }
+        return -1;
+    }
+
     private void DrawingList(List<String> list, int drawCount=-1){
         stopwatch.Start();
-        drawCount=drawCount < 0 ? list.Count : drawCount;
+        
+        // 引数入力がなければ二秒経過時点でストップ
+        drawCount=(drawCount > -1 && drawCount <= list.Count) ? drawCount : list.Count;
+
         for (int i = 0; i < drawCount; i++)        
         {
             Console.WriteLine(list[i]);
@@ -64,6 +96,8 @@ class ArreyTest {
                 break;
             }
         }
+        stopwatch.Stop();
+        stopwatch.Reset();
     }
     private List<String> CreateRamdonList(int count){
         List<String> output=new List<string>(count);
@@ -71,6 +105,7 @@ class ArreyTest {
         {
             output.Add(CreateRamdomString());
         }
+
         // とりあえずデフォ機能利用
         output.Sort();
 
