@@ -9,7 +9,7 @@ public class ListVisitor :Visitor
 
     public override void visit(Directory directory)
     {
-        Console.WriteLine(currentdir+"/"+directory);
+        Console.WriteLine(currentdir+"/"+directory.ToString());
         string savedir=currentdir;
         currentdir=currentdir+"/"+directory.getName();
         IEnumerator<Entry> it=directory.enumerable();

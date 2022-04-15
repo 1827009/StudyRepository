@@ -3,7 +3,8 @@ public abstract class Entry :Element{
 
     public abstract void accept(Visitor v);
 
-    public string toString(){
+    public override string ToString()
+    {
         return getName();
     }
 }
