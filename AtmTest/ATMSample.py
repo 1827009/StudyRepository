@@ -85,21 +85,27 @@ class AtmUi:
         self.numberUpdate()
 
     def drawer(self):
-        self.business.drawer(self.current_number)
+        try:
+            self.business.drawer(self.current_number)   
+        except OutOfMoney as e:
+            self.ErrorDisplay()
         self.moneyUpdate()
         self.cashsUpdate()
     def deposit(self):
-        self.business.deposit(self.current_number)
+        try:
+            self.business.deposit(self.current_number)  
+        except OutOfMoney as e:
+            self.ErrorDisplay()
         self.moneyUpdate()
         self.cashsUpdate()
     def printing(self):
         self.business.printin()
         self.passbookUpdate()
 
-    def ErrerDisplay(self):
-        errerWin=tk.Toplevel()
-        errerText=tk.Label(errerWin,text="エラーが発生しました\n残高、または紙幣・硬貨の不足")
-        errerText.pack()
+    def ErrorDisplay(self):
+        errorWin=tk.Toplevel()
+        errorText=tk.Label(errorWin,text="エラーが発生しました\n支払いできません")
+        errorText.pack()
 
 
 class Business:
@@ -115,7 +121,6 @@ class Business:
         self.cashs=Cashs(1)
     
     def drawer(self, value):
-        try:
             if self.account.money<value:
                 raise OutOfMoney("残高が足りない")
             
@@ -123,9 +128,6 @@ class Business:
             self.account.history.addHistory(str(value)+"引出")
             self.account.money-=value
             print(self.cashs)
-        except OutOfMoney as e:
-            self.ui.ErrerDisplay()
-            print("エラー画面")
 
     def deposit(self, value):
         self.account.history.addHistory(str(value)+"預入")
