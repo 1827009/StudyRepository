@@ -1,7 +1,8 @@
 
-class Account{
-    public History history=new History();
+class Account
+{
+    public History history = new History();
 
-    public int money=10000;
+    public int money = 10000;
 
 }

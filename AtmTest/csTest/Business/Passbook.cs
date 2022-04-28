@@ -1,4 +1,5 @@
 
-class Passbook{
-    public string text="";
+class Passbook
+{
+    public string text = "";
 }
