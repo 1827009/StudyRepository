@@ -31,14 +31,8 @@ class Transaction
 
         if (amount % after > 0) return before;
 
-        for (int i = 0; i < result.cashs.Length; i++)
-        {
-            if (result.cashs[i].Worth == after)
-            {
-                result.cashs[i].quantity = amount / after;
-                break;
-            }
-        }
+        result.quantity[Array.IndexOf(Cashs.Worth, after)] = amount / after;
+        
         business.cashs += before;
         business.cashs -= result;
 

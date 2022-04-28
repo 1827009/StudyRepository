@@ -1,38 +1,33 @@
 
 struct Cashs
 {
-    public Cash[] cashs;
+    public int[] quantity={0,0,0,0,0,0,0,0,0};
+    public static readonly int[] Worth={10000,5000,1000,500,100,50,10,5,1};
 
     public Cashs(int moneyStock = 0)
     {
-        cashs = new Cash[9];
-        cashs[0] = new Cash(10000, moneyStock);
-        cashs[1] = new Cash(5000, moneyStock);
-        cashs[2] = new Cash(1000, moneyStock);
-        cashs[3] = new Cash(500, moneyStock);
-        cashs[4] = new Cash(100, moneyStock);
-        cashs[5] = new Cash(50, moneyStock);
-        cashs[6] = new Cash(10, moneyStock);
-        cashs[7] = new Cash(5, moneyStock);
-        cashs[8] = new Cash(1, moneyStock);
+        for (int i = 0; i < quantity.Length; i++)
+        {
+            quantity[i]=moneyStock;
+        }
     }
 
     public static Cashs ScalarToCashs(int scalar)
     {
         Cashs result = new Cashs(0);
-        for (int i = 0; i < result.cashs.Length; i++)
+        for (int i = 0; i < Cashs.Worth.Length; i++)
         {
-            result.cashs[i].quantity = (int)(scalar / result.cashs[i].Worth);
-            scalar %= result.cashs[i].Worth;
+            result.quantity[i] = (int)(scalar / Cashs.Worth[i]);
+            scalar %= Cashs.Worth[i];
         }
         return result;
     }
     public static int CashsToScalar(Cashs cashs)
     {
         int result = 0;
-        foreach (Cash i in cashs.cashs)
+        foreach (int i in cashs.quantity)
         {
-            result += i.quantity * i.Worth;
+            result += i * Cashs.Worth[i];
         }
         return result;
     }
@@ -40,26 +35,26 @@ struct Cashs
     public static Cashs operator +(Cashs a, Cashs b)
     {
         Cashs result = new Cashs(0);
-        for (int i = 0; i < a.cashs.Length; i++)
+        for (int i = 0; i < Cashs.Worth.Length; i++)
         {
-            result.cashs[i].quantity = a.cashs[i].quantity + b.cashs[i].quantity;
+            result.quantity[i] = a.quantity[i] + b.quantity[i];
         }
         return result;
     }
     public static Cashs operator -(Cashs a, int b)
     {
         Cashs result = new Cashs(0);
-        for (int i = 0; i < a.cashs.Length; i++)
+        for (int i = 0; i < Cashs.Worth.Length; i++)
         {
-            result.cashs[i].quantity = (int)(b / a.cashs[i].Worth);
-            a.cashs[i].quantity -= result.cashs[i].quantity;
-            b %= a.cashs[i].Worth;
+            result.quantity[i] = (int)(b / Cashs.Worth[i]);
+            a.quantity[i] -= result.quantity[i];
+            b %= Cashs.Worth[i];
 
-            if (a.cashs[i].quantity < 0)
+            if (a.quantity[i] < 0)
             {
-                b += Math.Abs(a.cashs[i].quantity) * a.cashs[i].Worth;
-                result.cashs[i].quantity -= Math.Abs(a.cashs[i].quantity);
-                a.cashs[i].quantity = 0;
+                b += Math.Abs(a.quantity[i]) * Cashs.Worth[i];
+                result.quantity[i] -= Math.Abs(a.quantity[i]);
+                a.quantity[i] = 0;
             }
         }
         if (b > 0)
@@ -70,33 +65,13 @@ struct Cashs
     public static Cashs operator -(Cashs a, Cashs b)
     {
         Cashs result = new Cashs(0);
-        for (int i = 0; i < a.cashs.Length; i++)
+        for (int i = 0; i < Cashs.Worth.Length; i++)
         {
-            result.cashs[i].quantity=a.cashs[i].quantity-b.cashs[i].quantity;
-            if(result.cashs[i].quantity<0)
+            result.quantity[i]=a.quantity[i]-b.quantity[i];
+            if(result.quantity[i]<0)
                 throw new MoneyOfOut();
         }
 
         return result;
-    }
-    public struct Cash
-    {
-        int worth;
-        public int Worth
-        {
-            get { return worth; }
-        }
-        public int quantity = 0;
-
-        public Cash(int worth, int quantity = 0)
-        {
-            this.worth = worth;
-            this.quantity = quantity;
-        }
-
-        public static Cash operator +(Cash a, Cash b)
-        {
-            return new Cash(a.Worth, a.quantity + b.quantity * (a.Worth / b.Worth));
-        }
     }
 }

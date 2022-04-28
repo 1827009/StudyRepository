@@ -6,8 +6,8 @@ class AtmUi
     {
         Console.WriteLine("残高: " + business.account.money);
         Console.Write("ATM内: ");
-        for (int i = 0; i < business.cashs.cashs.Length; i++)
-            Console.Write(business.cashs.cashs[i].Worth + "円: " + business.cashs.cashs[i].quantity + "枚 | ");
+        for (int i = 0; i < Cashs.Worth.Length; i++)
+            Console.Write(Cashs.Worth[i] + "円: " + business.cashs.quantity[i] + "枚 | ");
         Console.WriteLine();
     }
     public void Control(string order, int value)
@@ -43,9 +43,9 @@ class AtmUi
             if(order=="currency_exchange")
             {
                 Cashs result = business.transaction.CurrencyExchange(cashs, price);
-                foreach (Cashs.Cash item in result.cashs)
+                for (int i = 0; i < Cashs.Worth.Length; i++)
                 {
-                    Console.WriteLine(item.Worth+"円が "+item.quantity+"枚");
+                    Console.WriteLine(Cashs.Worth[i]+"円が "+result.quantity+"枚");
                 }
                 Console.WriteLine("を引き出した");
             }

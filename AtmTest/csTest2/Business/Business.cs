@@ -1,12 +1,13 @@
 class Business
 {
-    public Account account = new Account();
-    public Calender calender = new Calender();
+    // データクラス
+    public Account account = new Account(10000);
     public Passbook passbook = new Passbook();
 
+    // 処理クラス
     public Cashs cashs = new Cashs(10000);
-
     public Transaction transaction;
+    public Calender calender = new Calender();
 
     public Business()
     {
