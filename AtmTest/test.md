@@ -1,68 +1,58 @@
+#ドキュメント
+各クラスの機能をビジネスクラスし集約させ、ビジネスクラスをATMUIクラスから呼び出すことで操作できるようにしています。
+イメージ的にはATMの機械がATMUI、ビジネスがATMの内部の処理機能です。
+ATMUIからは引出、預入、記帳、両替ができるようになっており、ATM内の現金が足りないか、残高を越して引き出そうとするとMoneyOfOutのエラーを吐きます。
+
 ```puml
 
 @startuml
 
 title ATMサンプル
 
-class 口座 {
-現金
+class ATMUI{
+    表示()
+    操作()
+}
+
+class ビジネス{
+    現金
+}
+ビジネス "1" -o ATMUI
+
+class 取引 {
 出金()
 入金()
 }
+取引 "1" o-o ビジネス
 
-class 顧客 {
-氏名
+class 口座 {
+残高
 }
+口座 "1..." -o ビジネス
 
 class 取引履歴 {
-日時
-内容
-金額
-記録()
+記録
+記録する(string)
 }
-
-class カード {
-番号
-暗証番号
-}
+取引履歴 "1" -o 口座
 
 class カレンダー{
     日数計算()
 }
+カレンダー "1" -o 取引履歴
 
 class 通帳{
-    印字()
+    印字
 }
+ビジネス "1" o- 通帳
 
-顧客 "1" -* 口座
-顧客 "1" *- "0..1" カード
-
-口座 "1" o- 通帳
-口座 "1" o- 取引履歴
-
-@enduml
-
-```
-
-```puml
-@startuml
-title アクティビティサンプル
-
-start 
-if(カードを挿入)
-    if(暗証番号を入力) then (成功)
-        if(入金) then (はい)
-        elseif(出金) then (はい)
-        endif
-    else
-        :エラーメッセージ;
-    endif
-elseif(通帳を挿入)
-    :印字;
-endif
-
-:記録;
-stop
+class 現金{
+    価値
+    枚数
+    static 数値現金変換(int)
+    static 現金数値変換(現金)
+}
+ビジネス "1" o- 現金
 
 @enduml
 
@@ -78,7 +68,7 @@ struct Cashs
     public static readonly int[] Worth={10000,5000,1000,500,100,50,10,5,1};
 ```
 
-指定の価値を持つ貨幣のindexを取得するための検索効率が悪かったため
+指定の価値を持つ貨幣のindexを取得するための検索効率が悪かったため、forでの総当たり(O(N))からIndexOf(O(NLogN))にした
 Transaction.cs
 ```
         result.quantity[Array.IndexOf(Cashs.Worth, after)] = amount / after;
