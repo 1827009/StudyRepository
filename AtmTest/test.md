@@ -3,6 +3,7 @@
 イメージ的にはATMの機械がATMUI、ビジネスがATMの内部の処理機能です。
 ATMUIからは引出、預入、記帳、両替ができるようになっており、ATM内の現金が足りないか、残高を越して引き出そうとするとMoneyOfOutのエラーを吐きます。
 
+クラス図
 ```puml
 
 @startuml
@@ -57,6 +58,33 @@ class 現金{
 @enduml
 
 ```
+アクティビティ図
+```puml
+start
+
+if(預入) then(yes)
+    :お金投入(金額入力);    
+elseif(引出) then(yes)
+    :金額入力;
+    :お金排出;
+elseif(両替) then(yes)
+    :金額入力;
+    :お金投入;
+    :お金排出;
+    stop
+elseif(記帳) then(yes)
+    :記入;
+    stop
+else
+    stop
+endif
+
+:記録;
+
+stop
+```
+記述に当たって参考になったサイト
+https://plantuml.com/ja/use-case-diagram
 
 #コードレビュー
 現金を価値・個数の構造体配列にしていたが、価値はコード内で不変であるため分離してleadonlyにした
