@@ -19,18 +19,23 @@ namespace datadrivenTest.GameOctopus
         {
             player = new Player();
 
+            LoadCSV(int.Parse(Utility.ReadCSV("stage_select.csv")["0"]["stage"]));
+        }
+        public void LoadCSV(int id)
+        {
             var data = Utility.ReadCSV("stage.csv");
             tentacles = new List<Tentacle>(data.Count);
 
-            for (int i = 0; i < data.Count; i++)
+            for (int i = 0; i < data[id.ToString()].Count; i++)
             {
                 // 触手を生成
-                int id = int.Parse(data[i.ToString()]["enemy"]);
-                Tentacle tentacle = new Tentacle(id, this);
-                if (id != 0)
+                int tentcleId = int.Parse(data[id.ToString()][i.ToString()]);
+                Tentacle tentacle = new Tentacle(tentcleId, this);
+                if (tentcleId != 0)
                     objectUpdates += tentacle.Update;
                 tentacles.Add(tentacle);
             }
+
         }
 
         public void Update(GameTime time)
@@ -52,12 +57,13 @@ namespace datadrivenTest.GameOctopus
         {
             for (int i = 0; i < tentacles.Count; i++)
             {
-                if (tentacles[i].maxStep!=0&&tentacles[i].Step == tentacles[i].maxStep && i == player.position)
+                if (tentacles[i].maxStep != 0 && tentacles[i].Step == tentacles[i].maxStep && i == player.position)
                 {
                     System.Diagnostics.Debug.WriteLine("ヒット");
                     player.Damage();
 
-                    return true;
+                    if (player.stock <= 0)
+                        return true;
                 }
             }
             return false;

@@ -20,6 +20,10 @@ namespace datadrivenTest.GameOctopus
 
         public Player()
         {
+            LoadCSV();
+        }
+        void LoadCSV()
+        {
             var data = Utility.ReadCSV("player.csv");
             moveResponse = float.Parse(data["move_respons"]["status"]);
             stock= float.Parse(data["stock"]["status"]);

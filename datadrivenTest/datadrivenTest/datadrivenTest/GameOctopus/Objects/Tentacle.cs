@@ -29,6 +29,10 @@ namespace datadrivenTest.GameOctopus
 
         public Tentacle(int id, Stage stage)
         {
+            LoadCSV(id);
+        }
+        void LoadCSV(int id)
+        {
             var data = Utility.ReadCSV("enemy.csv");
             var patternData = Utility.ReadCSV("tentcle_pattern.csv");
 
@@ -37,9 +41,9 @@ namespace datadrivenTest.GameOctopus
             speed = float.Parse(data[id.ToString()]["speed"]);
             maxStep = int.Parse(data[id.ToString()]["tentacle_step"]);
             pattern = new List<int>();
-            foreach (var i in patternData)
+            foreach (var i in patternData[data[id.ToString()]["tentacle_pattern"]])
             {
-                pattern.Add(int.Parse(i.Value[data[id.ToString()]["tentacle_pattern"]]));
+                pattern.Add(int.Parse(i.Value));
             }
         }
 
