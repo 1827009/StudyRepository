@@ -52,7 +52,7 @@ namespace datadrivenTest.GameOctopus.DrawClasss
         public void DrawUi()
         {
             text.Draw("STOCK " + stage.player.stock, Vector2.Zero);
-            text.Draw("ITEM " + stage.player.items, new Vector2(0, 12));
+            text.Draw("ITEM " + stage.player.totalItems, new Vector2(0, 12));
 
             if (stage.gameover)
                 text.Draw("GAME OVER", new Vector2(0, 24));

@@ -12,7 +12,8 @@ namespace datadrivenTest.GameOctopus
         public int position = 0;
         float moveWeit = 0;
         float getItemWeit = 0;
-        public int items = 0;
+        public int totalItems = 0;
+        public bool getItem = false;
 
         float moveResponse;
         public float stock;
@@ -37,7 +38,8 @@ namespace datadrivenTest.GameOctopus
             {
                 if (InputManager.IsKeyDown(Keys.Right) || InputManager.IsKeyDown(Keys.D))
                 {
-                    items++;
+                    totalItems++;
+                    getItem = true;
                     getItemWeit = getItemRespons;
                     moveWeit = moveResponse;
                     return;
@@ -45,6 +47,16 @@ namespace datadrivenTest.GameOctopus
             }
             if (getItemWeit > 0)
                 getItemWeit -= (float)time.ElapsedGameTime.TotalSeconds;
+
+            if (getItemWeit <= 0 && position == 0)
+            {
+                if (InputManager.IsKeyDown(Keys.Left) || InputManager.IsKeyDown(Keys.A))
+                {
+                    totalItems+=3;
+                    getItem = false;
+                    return;
+                }
+            }
 
             if (moveWeit <= 0)
             {
@@ -72,6 +84,7 @@ namespace datadrivenTest.GameOctopus
 
         public void Damage()
         {
+            getItem = false;
             stock--;
             if (stock < 0)
                 return;

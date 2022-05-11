@@ -18,7 +18,7 @@ namespace datadrivenTest.GameOctopus.DrawClasss
         {
             this.player = player;
 
-            box = new DrawBox(Matrix.Identity, Matrix.Identity, Color.Red);
+            box = new DrawBox(Matrix.Identity, Matrix.Identity, Color.Red, Vector2.One);
         }
         public void Update(Matrix parent)
         {

@@ -24,7 +24,7 @@ namespace datadrivenTest.GameOctopus.DrawClasss
             {
                 Matrix pos = Matrix.Identity;
                 pos.Translation = new Vector3(0, (-DrawStage.BLOCK_SPACE * (5 / (float)tentacle.maxStep)) * i, 0);
-                boxes.Add(new DrawBox(this.matrix, pos, Color.Black));
+                boxes.Add(new DrawBox(this.matrix, pos, Color.Black, new Vector2(1, (5 / (float)tentacle.maxStep))));
             }
         }
         public void Update(Matrix parent)
