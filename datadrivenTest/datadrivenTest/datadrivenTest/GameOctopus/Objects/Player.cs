@@ -4,16 +4,22 @@ using System.Text;
 using System.IO;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
+using datadrivenTest.GameOctopus.DrawClasss;
 
 namespace datadrivenTest.GameOctopus
 {
-    class Player
+    public class Player
     {
+        const float BLINKING_TIME = 0.25f;
+
+        public Action updateAction;
+
         public int position = 0;
         float moveWeit = 0;
         float getItemWeit = 0;
         public int totalItems = 0;
         public bool getItem = false;
+        float onBlinking = 0f;
 
         float moveResponse;
         public float stock;
@@ -33,7 +39,13 @@ namespace datadrivenTest.GameOctopus
 
         public void Update(GameTime time, Stage stage)
         {
-            // 操作
+            updateAction?.Invoke();
+
+            Control(time, stage);
+        }
+        void Control(GameTime time, Stage stage)
+        {
+            // 宝取得
             if (getItemWeit <= 0 && position == stage.tentacles.Count - 1)
             {
                 if (InputManager.IsKeyDown(Keys.Right) || InputManager.IsKeyDown(Keys.D))
@@ -45,19 +57,17 @@ namespace datadrivenTest.GameOctopus
                     return;
                 }
             }
-            if (getItemWeit > 0)
+            else
                 getItemWeit -= (float)time.ElapsedGameTime.TotalSeconds;
-
-            if (getItemWeit <= 0 && position == 0)
+            // 船へ帰還
+            if (getItem && position == 0 && (InputManager.IsJustKeyDown(Keys.Left) || InputManager.IsJustKeyDown(Keys.A)))
             {
-                if (InputManager.IsKeyDown(Keys.Left) || InputManager.IsKeyDown(Keys.A))
-                {
-                    totalItems+=3;
-                    getItem = false;
-                    return;
-                }
+                totalItems += 3;
+                getItem = false;
+                return;
             }
 
+            // 移動
             if (moveWeit <= 0)
             {
                 if (InputManager.IsKeyDown(Keys.Left) || InputManager.IsKeyDown(Keys.A))
@@ -78,11 +88,12 @@ namespace datadrivenTest.GameOctopus
                 }
 
             }
-            if (moveWeit > 0)
+            else
                 moveWeit -= (float)time.ElapsedGameTime.TotalSeconds;
+
         }
 
-        public void Damage()
+        public void Injured()
         {
             getItem = false;
             stock--;
@@ -91,6 +102,24 @@ namespace datadrivenTest.GameOctopus
 
             position = 0;
             moveWeit = 2;
+            onBlinking = 2f;
+        }
+
+        float blinkingTime = 0;
+        public bool Blinking()
+        {
+            if (onBlinking > 0)
+            {
+                onBlinking -= Game1.gameTime;
+                if (blinkingTime > 0)
+                {
+                    blinkingTime -= Game1.gameTime;
+                    return true;
+                }
+                else
+                    blinkingTime = BLINKING_TIME;
+            }
+            return false;
         }
     }
 }

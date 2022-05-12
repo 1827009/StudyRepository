@@ -10,6 +10,8 @@ namespace datadrivenTest.GameOctopus.DrawClasss
     class DrawStage
     {
         public static readonly float BLOCK_SPACE = 0.21f;
+        delegate void Updates(Matrix matrix);
+        Updates tentacleUpdates;
 
         Stage stage;
 
@@ -33,37 +35,39 @@ namespace datadrivenTest.GameOctopus.DrawClasss
             {
                 Matrix pos = Matrix.Identity;
                 pos.Translation += new Vector3(BLOCK_SPACE * i, BLOCK_SPACE*5, 0);
-                tentacles.Add(new DrawTentacle(pos, stage.tentacles[i]));
+                DrawTentacle tentacle = new DrawTentacle(pos, stage.tentacles[i]);
+                tentacles.Add(tentacle);
+                tentacleUpdates += tentacle.Update;
             }
         }
 
-        public void Update(GameTime time)
+        public void Update()
         {
-            stage.Update(time);
-
             player.Update(matrix);
-            for (int i = 0; i < tentacles.Count; i++)
-            {
-                tentacles[i].Update(matrix);
-            }
-
+            tentacleUpdates(matrix);
         }
 
         public void DrawUi()
         {
-            text.Draw("STOCK " + stage.player.stock, Vector2.Zero);
-            text.Draw("ITEM " + stage.player.totalItems, new Vector2(0, 12));
+            text.Draw("STAGE " + (stage.Id+1), new Vector2(0, DrawText.FONT_SIZE * 0));
+            text.Draw("STOCK " + stage.player.stock, new Vector2(0, DrawText.FONT_SIZE * 1));
+            text.Draw("ITEM " + stage.player.totalItems + "/" + stage.clearPoint, new Vector2(0, DrawText.FONT_SIZE * 2));
 
             if (stage.gameover)
-                text.Draw("GAME OVER", new Vector2(0, 24));
+                text.Draw("GAME OVER", new Vector2(0, DrawText.FONT_SIZE * 3));
+            if (stage.GameClear)
+                text.Draw("GAME CLEAR", new Vector2(0, DrawText.FONT_SIZE * 3));
         }
 
         public void Draw(GameTime time, GraphicsDevice graphics)
         {
-            player.Draw(graphics);
-            for (int i = 0; i < tentacles.Count; i++)
+            if (!stage.gameover)
             {
-                tentacles[i].Draw(stage.tentacles[i], graphics);
+                player.Draw(graphics);
+                for (int i = 0; i < tentacles.Count; i++)
+                {
+                    tentacles[i].Draw(stage.tentacles[i], graphics);
+                }
             }
         }
     }

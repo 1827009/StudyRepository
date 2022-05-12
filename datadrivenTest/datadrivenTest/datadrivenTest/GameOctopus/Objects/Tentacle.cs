@@ -6,13 +6,15 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace datadrivenTest.GameOctopus
 {
-    class Tentacle
+    public class Tentacle
     {
         public int position;
 
         public float speed;
         public int maxStep;
-        public List<int> pattern;
+        List<int> pattern;
+
+        public bool active = true;
         float moveCoolTime = 0f;
         int step = 0;
         public int Step
@@ -33,6 +35,12 @@ namespace datadrivenTest.GameOctopus
         }
         void LoadCSV(int id)
         {
+            if (id == 0)
+            {
+                active = false;
+                return;
+            }
+
             var data = Utility.ReadCSV("enemy.csv");
             var patternData = Utility.ReadCSV("tentcle_pattern.csv");
 
@@ -49,6 +57,10 @@ namespace datadrivenTest.GameOctopus
 
         public void Update(GameTime time)
         {
+            Move(time);
+        }
+        void Move(GameTime time)
+        { 
             if (moveCoolTime > 0)
             {
                 moveCoolTime -= (float)time.ElapsedGameTime.TotalSeconds;
@@ -57,7 +69,6 @@ namespace datadrivenTest.GameOctopus
             moveCoolTime = speed;
             Step += pattern[patternIndex];
             patternIndex = (patternIndex + 1) % pattern.Count;
-
         }
 
     }

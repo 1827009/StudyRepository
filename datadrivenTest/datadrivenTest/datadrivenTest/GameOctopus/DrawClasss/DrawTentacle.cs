@@ -31,13 +31,18 @@ namespace datadrivenTest.GameOctopus.DrawClasss
         {
             for (int i = 0; i < boxes.Count; i++)
             {
-                boxes[i].Update(parent*matrix);
+
+                boxes[i].Update(parent * matrix);
             }
         }
         public void Draw(Tentacle tentacle, GraphicsDevice graphics)
         {
-            for (int i = 0; i < tentacle.Step; i++)
+            for (int i = 0; i < boxes.Count; i++)
             {
+                if (i < tentacle.Step)
+                    boxes[i].ChengeColor(Color.Black);
+                else
+                    boxes[i].ChengeColor(new Color(100, 100, 100));
                 boxes[i].Draw(graphics);
             }
         }

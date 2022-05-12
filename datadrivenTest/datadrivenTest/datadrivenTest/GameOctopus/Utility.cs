@@ -7,6 +7,11 @@ namespace datadrivenTest.GameOctopus
 {
     class Utility
     {
+        /// <summary>
+        /// svcファイル読み出し。アクセスはすべて文字列
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         public static Dictionary<string, Dictionary<string, string>> ReadCSV(string file)
         {
             List<List<string>> list = new List<List<string>>();

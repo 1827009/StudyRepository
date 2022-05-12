@@ -20,7 +20,7 @@ namespace datadrivenTest.GameOctopus
             verMatrix = new Matrix[6];
             for (int i = 0; i < 6; i++)
                 verMatrix[i] = Matrix.Identity;
-            verMatrix[0].Translation = new Vector3(-0.1f*size.X, 0.1f * size.Y, 0);
+            verMatrix[0].Translation = new Vector3(-0.1f * size.X, 0.1f * size.Y, 0);
             verMatrix[1].Translation = new Vector3(0.1f * size.X, 0.1f * size.Y, 0);
             verMatrix[2].Translation = new Vector3(0.1f * size.X, -0.1f * size.Y, 0);
 
@@ -46,6 +46,14 @@ namespace datadrivenTest.GameOctopus
                 0,
                 2
                 );
+        }
+
+        public void ChengeColor(Color color)
+        {
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                vertices[i].Color = color;
+            }
         }
     }
 }

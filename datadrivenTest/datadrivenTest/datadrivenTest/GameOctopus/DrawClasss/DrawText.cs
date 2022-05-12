@@ -10,6 +10,8 @@ namespace datadrivenTest.GameOctopus.DrawClasss
 {
     class DrawText
     {
+        public const float FONT_SIZE = 12f;
+
         ContentManager content;
         SpriteBatch spriteBatch;
 
