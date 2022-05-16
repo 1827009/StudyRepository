@@ -1,4 +1,5 @@
 *.pdf
 *.dll
+*.exe
 /bin/
 /obj/
