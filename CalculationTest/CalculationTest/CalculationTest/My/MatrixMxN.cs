@@ -34,8 +34,7 @@ namespace My
                 matrix[i] = new float[n];
                 for (int j = 0; j < n; j++)
                 {
-                    if (i == j)
-                        matrix[i][j] = 1;
+                    matrix[i][j] = 0;
                 }
             }
         }
@@ -119,9 +118,6 @@ namespace My
         public MatrixSizeErrer()
         {
             System.Diagnostics.Debug.WriteLine("左辺の行の要素数と左辺の列の要素数が一致しません");
-        }
-        public MatrixSizeErrer(string a, string b):base()
-        {
         }
     }
 }

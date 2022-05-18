@@ -1,8 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 using datadrivenTest.GameOctopus;
 using datadrivenTest.GameOctopus.DrawClasss;
+using datadrivenTest.GameOctopus.ObjectClasss;
 
 namespace datadrivenTest
 {
@@ -10,19 +12,16 @@ namespace datadrivenTest
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        BasicEffect effect;
+        private BasicEffect effect;
 
-        public static readonly int WINDOW_SIZE_X = 750;
-        public static readonly int WINDOW_SIZE_Y = 750;
+        public static readonly int WINDOW_SIZE_X = 628;
+        public static readonly int WINDOW_SIZE_Y = 378;
 
         public static float gameTime;
 
         Stage stage;
-        DrawStage drawStage;
-
-        public static bool clearFlag = false;
-
-        int stageId = 0;
+        SoundManager soundManager;
+        DrawGame drawTextures;
 
         public Game1()
         {
@@ -44,8 +43,8 @@ namespace datadrivenTest
                 stage = new Stage(Initialize);
             else
                 stage = stage.NextStage();
-            
-            drawStage = new DrawStage(stage, Content, _spriteBatch);
+
+            drawTextures.Initialize(stage);
         }
 
         protected override void LoadContent()
@@ -55,6 +54,8 @@ namespace datadrivenTest
             // TODO: use this.Content to load your game content here
             effect = new BasicEffect(GraphicsDevice);
             effect.VertexColorEnabled = true;
+            soundManager = new SoundManager(Content);
+            drawTextures = new DrawGame(Content);
         }
 
         protected override void Update(GameTime gameTime)
@@ -64,13 +65,10 @@ namespace datadrivenTest
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-            if (clearFlag)
-                Exit();
+            // TODO: Add your update logic here7
             InputManager.Update();
 
             stage.Update(gameTime);
-            drawStage.Update();
 
             base.Update(gameTime);
         }
@@ -85,12 +83,11 @@ namespace datadrivenTest
             foreach (var pass in effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
-                drawStage.Draw(gameTime, GraphicsDevice);
             }
 
             _spriteBatch.Begin();
 
-            drawStage.DrawUi();
+            drawTextures.Draw(gameTime, _spriteBatch);
 
             _spriteBatch.End();
 

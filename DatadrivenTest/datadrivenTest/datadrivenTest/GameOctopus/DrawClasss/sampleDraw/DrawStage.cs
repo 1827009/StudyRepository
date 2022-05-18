@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using datadrivenTest.GameOctopus.ObjectClasss;
 
 namespace datadrivenTest.GameOctopus.DrawClasss
 {
@@ -23,7 +24,7 @@ namespace datadrivenTest.GameOctopus.DrawClasss
 
         public DrawStage(Stage stage, ContentManager content, SpriteBatch spriteBatch)
         {
-            text = new DrawText(content, spriteBatch);
+            text = new DrawText(content, Vector2.Zero);
 
             matrix.Translation = new Vector3(-1 + DrawStage.BLOCK_SPACE, -0.5f, 0);
 
@@ -47,16 +48,16 @@ namespace datadrivenTest.GameOctopus.DrawClasss
             tentacleUpdates(matrix);
         }
 
-        public void DrawUi()
+        public void DrawUi(SpriteBatch spriteBatch)
         {
-            text.Draw("STAGE " + (stage.Id+1), new Vector2(0, DrawText.FONT_SIZE * 0));
-            text.Draw("STOCK " + stage.player.stock, new Vector2(0, DrawText.FONT_SIZE * 1));
-            text.Draw("ITEM " + stage.player.totalItems + "/" + stage.clearPoint, new Vector2(0, DrawText.FONT_SIZE * 2));
+            text.Draw(spriteBatch,"STAGE " + (stage.Id+1));
+            text.Draw(spriteBatch, "STOCK " + stage.player.stock);
+            text.Draw(spriteBatch, "ITEM " + stage.player.totalItems + "/" + stage.clearPoint);
 
             if (stage.gameover)
-                text.Draw("GAME OVER", new Vector2(0, DrawText.FONT_SIZE * 3));
+                text.Draw(spriteBatch, "GAME OVER");
             if (stage.GameClear)
-                text.Draw("GAME CLEAR", new Vector2(0, DrawText.FONT_SIZE * 3));
+                text.Draw(spriteBatch, "GAME CLEAR");
         }
 
         public void Draw(GameTime time, GraphicsDevice graphics)

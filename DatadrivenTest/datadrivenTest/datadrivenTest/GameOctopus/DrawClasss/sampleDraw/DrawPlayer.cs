@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using datadrivenTest.GameOctopus.ObjectClasss;
 
 namespace datadrivenTest.GameOctopus.DrawClasss
 {
     class DrawPlayer
     {
-
         Player player;
         DrawBox box;
 
@@ -29,8 +29,7 @@ namespace datadrivenTest.GameOctopus.DrawClasss
 
         public void Draw(GraphicsDevice graphics)
         {
-            if (!player.Blinking())
-                box.Draw(graphics);
+            box.Draw(graphics);
         }
     }
 }

@@ -4,10 +4,11 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace datadrivenTest.GameOctopus
+namespace datadrivenTest.GameOctopus.ObjectClasss
 {
-    public class Tentacle
+    class Tentacle:UpdateObject
     {
+
         public int position;
 
         public float speed;
@@ -15,9 +16,8 @@ namespace datadrivenTest.GameOctopus
         List<int> pattern;
 
         public bool active = true;
-        float moveCoolTime = 0f;
         int step = 0;
-        public int Step
+        public virtual int Step
         {
             get { return step; }
             set
@@ -27,11 +27,19 @@ namespace datadrivenTest.GameOctopus
                 if (step > maxStep) step = maxStep;
             }
         }
-        int patternIndex = 0;
 
         public Tentacle(int id, Stage stage)
         {
             LoadCSV(id);
+        }
+        public Tentacle(Tentacle tentacle)
+        {
+            position = tentacle.position;
+            speed = tentacle.speed;
+            maxStep = tentacle.maxStep;
+            pattern = tentacle.pattern;
+            active = tentacle.active;
+            step = tentacle.step;
         }
         void LoadCSV(int id)
         {
@@ -55,10 +63,13 @@ namespace datadrivenTest.GameOctopus
             }
         }
 
-        public void Update(GameTime time)
+        public override void Update(GameTime time)
         {
+            if (!active) return;
             Move(time);
         }
+        float moveCoolTime = 0f;
+        int patternIndex = 0;
         void Move(GameTime time)
         { 
             if (moveCoolTime > 0)

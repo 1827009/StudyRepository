@@ -24,6 +24,21 @@ namespace My
             this.y = v.y;
             this.z = v.z;
         }
+
+        public override string ToString()
+        {
+            return "(" + x + ", " + y + ", " + z + ")\r\n";
+        }
+
+        public static Vector3 CrossProduct(Vector3 a, Vector3 b)
+        {
+            Vector3 result;
+            result.x = a.y * b.z - b.y * a.z;
+            result.y = -a.x * b.z + b.x * a.z;
+            result.z = a.x * b.y - b.x * a.y;
+            return result;
+        }
+
         public static Vector3 operator +(Vector3 a, Vector3 b)
         {
             Vector3 output;

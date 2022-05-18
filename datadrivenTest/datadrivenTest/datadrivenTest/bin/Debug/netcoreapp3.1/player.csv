@@ -1,4 +1,5 @@
 ﻿key,status
-move_respons,0.5
-stock,3
+move_respons,0.1
+stock,2
 get_item_respons,1
+house_item_weit,1

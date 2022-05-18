@@ -15,21 +15,10 @@ namespace My
         public float M31;
         public float M32;
         public float M33;
-        public String Text
-        {
-            get
-            {
-                String output = this.M11 + ",\t" + this.M12 + ",\t" + this.M13 + "\n" +
-                                this.M21 + ",\t" + this.M22 + ",\t" + this.M23 + "\n" +
-                                this.M31 + ",\t" + this.M32 + ",\t" + this.M33;
-                return output;
-            }
-        }
 
-        private static Matrix3x3 identity = new Matrix3x3(1f, 0f, 0f,
+        private static readonly Matrix3x3 IDENTITY = new Matrix3x3(1f, 0f, 0f,
                                                          0f, 1f, 0f,
                                                          0f, 0f, 1f);
-        public static Matrix3x3 Identity { get { return identity; } }
 
         public Matrix3x3(float m11, float m12, float m13, float m21, float m22, float m23, float m31, float m32, float m33)
         {
@@ -79,23 +68,11 @@ namespace My
                 M32 = value.y;
             }
         }
-        public Vector2 Up
+        public override string ToString()
         {
-            get { return new Vector2(this.M21, this.M22); }
-            set
-            {
-                M21 = value.x;
-                M22 = value.y;
-            }
-        }
-        public Vector2 Down
-        {
-            get { return new Vector2(-this.M21, -this.M22); }
-            set
-            {
-                M21 = -value.x;
-                M22 = -value.y;
-            }
+            return "[" + this.M11 + ", " + this.M12 + ", " + this.M13 + "]\r\n" +
+                                "[" + this.M21 + ",\t" + this.M22 + ",\t" + this.M23 + "\r\n" + "]\r\n" +
+                                "[" + this.M31 + ",\t" + this.M32 + ",\t" + this.M33 + "]\r\n";
         }
 
         public static Matrix3x3 Add(Matrix3x3 matrix1, Matrix3x3 matrix2)
@@ -139,17 +116,7 @@ namespace My
 
             return output;
         }
-        // xna対応版
-        public static Microsoft.Xna.Framework.Vector3 Multiply(Microsoft.Xna.Framework.Vector3 vector, Matrix3x3 conversion)
-        {
-            Microsoft.Xna.Framework.Vector3 output;
-            output.X = vector.X * conversion.M11 + vector.Y * conversion.M21 + vector.Z * conversion.M31;
-            output.Y = vector.X * conversion.M12 + vector.Y * conversion.M22 + vector.Z * conversion.M32;
-            output.Z = vector.X * conversion.M13 + vector.Y * conversion.M23 + vector.Z * conversion.M33;
-
-            return output;
-        }
-        public static Vector2 Multiply(Vector2 vector, Matrix3x3 conversion)
+        static Vector2 Multiply(Vector2 vector, Matrix3x3 conversion)
         {
             Vector2 output;
             output.x = vector.x * conversion.M11 + vector.y * conversion.M21 + conversion.M31;
@@ -161,10 +128,6 @@ namespace My
         public static Matrix3x3 operator *(Matrix3x3 matrix1, Matrix3x3 matrix2)
         {
             return Multiply(matrix1, matrix2);
-        }
-        public static Microsoft.Xna.Framework.Vector3 operator *(Microsoft.Xna.Framework.Vector3 vector, Matrix3x3 conversion)
-        {
-            return Multiply(vector, conversion);
         }
         public static Vector2 operator *(Vector2 vector, Matrix3x3 conversion)
         {
@@ -240,6 +203,13 @@ namespace My
             M42 = m42;
             M43 = m43;
             M44 = m44;
+        }
+        public override string ToString()
+        {
+            return "[" + this.M11 + ", " + this.M12 + ", " + this.M13 + ", " + this.M14 + "]\r\n" +
+                                "[" + this.M21 + ",\t" + this.M22 + ",\t" + this.M23 + "\r\n" + ", " + this.M24 + "]\r\n" +
+                                "[" + this.M31 + ",\t" + this.M32 + ",\t" + this.M33 + ", " + this.M34 + "]\r\n" +
+                                "[" + this.M41 + ",\t" + this.M42 + ",\t" + this.M43 + ", " + this.M44 + "]\r\n";
         }
 
         public Vector3 Translation

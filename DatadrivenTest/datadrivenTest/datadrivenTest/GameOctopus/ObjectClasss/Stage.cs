@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace datadrivenTest.GameOctopus
+namespace datadrivenTest.GameOctopus.ObjectClasss
 {
-    public class Stage
+    class Stage
     {
         const float CLEAR_WEIT_TIME = 3;
 
         delegate void ObjectUpdates(GameTime time);
-        ObjectUpdates tentacleUpdates;
         Action initializeEvent;
 
         public Player player;
@@ -39,7 +38,7 @@ namespace datadrivenTest.GameOctopus
         {
             this.initializeEvent = initializeEvent;
 
-            player = new Player();
+            player = new Player(this);
             player.updateAction += ClearCheck;
 
             LoadCSV(int.Parse(Utility.ReadCSV("stage_select.csv")["0"]["stage"]));
@@ -48,7 +47,7 @@ namespace datadrivenTest.GameOctopus
         {
             this.initializeEvent = initializeEvent;
 
-            player = new Player();
+            player = new Player(this);
             player.updateAction += ClearCheck;
 
             LoadCSV(id);
@@ -69,16 +68,18 @@ namespace datadrivenTest.GameOctopus
                 // 触手を生成
                 int tentcleId = int.Parse(data[stageId.ToString()][i.ToString()]);
                 Tentacle tentacle = new Tentacle(tentcleId, this);
-                if (tentcleId != 0)
-                    tentacleUpdates += tentacle.Update;
                 tentacles.Add(tentacle);
             }
+            // 根っこが同じ触手の特例設定
+            tentacles[1] = new SpritTentacle(tentacles[1], tentacles[2], 2);
+            tentacles[2] = new SpritTentacle(tentacles[2], tentacles[1], 2);
 
         }
 
         public void Update(GameTime time)
         {
             if (gameover) return;
+
             if (GameClear)
             {
                 if (clearWeitTime > 0)
@@ -89,8 +90,14 @@ namespace datadrivenTest.GameOctopus
                 return;
             }
 
-            player.Update(time, this);
-            tentacleUpdates(time);
+            player.Update(time);
+            if (player.states != States.Damage)
+            {
+                foreach (var item in tentacles)
+                {
+                    item.Update(time);
+                }
+            }
 
             if (HitCheck())
             {
@@ -108,8 +115,9 @@ namespace datadrivenTest.GameOctopus
             {
                 System.Diagnostics.Debug.WriteLine("ヒット");
                 player.Injured();
-
-                if (player.stock <= 0)
+                tentacles[3].Step = 2;
+                
+                if (player.stock < 0)
                     return true;
             }
             return false;
@@ -118,7 +126,7 @@ namespace datadrivenTest.GameOctopus
         {
             if (player.totalItems >= clearPoint)
             {
-                GameClear = true;
+                //GameClear = true;
             }
         }
 

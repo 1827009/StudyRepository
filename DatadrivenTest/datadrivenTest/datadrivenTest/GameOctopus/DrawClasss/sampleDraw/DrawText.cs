@@ -13,20 +13,22 @@ namespace datadrivenTest.GameOctopus.DrawClasss
         public const float FONT_SIZE = 12f;
 
         ContentManager content;
-        SpriteBatch spriteBatch;
 
         SpriteFont font;
 
-        public DrawText(ContentManager content, SpriteBatch spriteBatch)
+        Vector2 position;
+
+        public DrawText(ContentManager content, Vector2 pos)
         {
             this.content = content;
-            this.spriteBatch = spriteBatch;
 
             font = content.Load<SpriteFont>("Fonts/TestFont");
+
+            position = pos;
         }
-        public void Draw(string text, Vector2 pos)
+        public void Draw(SpriteBatch spriteBatch, string text)
         {
-            spriteBatch.DrawString(font, text, pos, Color.Black);
+            spriteBatch.DrawString(font, text, position, Color.Black);
         }
     }
 }
