@@ -12,36 +12,53 @@ namespace datadrivenTest.GameOctopus.DrawClasss
     {
         Stage stage;
 
-        DrawTexture textures;
-        PlayerTexturer playerTexturer;
-        TentacleTexturer tentacleTexturer;
+        List<DrawTexture> textures=new List<DrawTexture>();
+        DrawPlayer drawPlayer;
+        List<DrawOctopus> drawOctopus=new List<DrawOctopus>();
 
         DrawText text;
 
-        public DrawGame(ContentManager content)
-        {
-            playerTexturer = new PlayerTexturer(content);
-            tentacleTexturer = new TentacleTexturer(content);
-
-            textures = new DrawTexture("Images/octopus_main", Vector2.Zero, content);
-
-            text = new DrawText(content, new Vector2(350f, 100f));
-        }
-
-        public void Initialize(Stage stage)
+        public DrawGame(ContentManager content, Stage stage)
         {
             this.stage = stage;
-            playerTexturer.Initialize(stage.player);
-            tentacleTexturer.Initialize(stage.tentacles);
+
+            drawPlayer = new DrawPlayer(content, stage.player);
+            for (int i = 0; i < stage.enemy.Count; i++)
+            {
+                drawOctopus.Add(new DrawOctopus(content, stage.enemy[i], new Vector2(120 + (i * 304), 40)));
+            }
+            LoadStageTextuer(content);
+
+            text = new DrawText(content, new Vector2(200f, 10f));
+        }
+
+        public void LoadStageTextuer(ContentManager content)
+        {
+            if (stage.size <= 6)
+                textures.Add(new DrawTexture("Images/octopus_display", Vector2.Zero, content));
+            else
+            {
+                textures.Add(new DrawTexture("Images/octopus_display_plus", Vector2.Zero, content));
+                textures.Add(new DrawTexture("Images/octopus_display", new Vector2(Game1.WINDOW_SIZE_X * 0.5f, 0), content));
+            }
         }
 
         public void Draw(GameTime time, SpriteBatch spriteBatch)
         {
-            textures.Draw(spriteBatch);
-            tentacleTexturer.Draw(spriteBatch);
-            playerTexturer.Draw(time, spriteBatch);
+            foreach (var item in textures)
+            {
+                item.Draw(spriteBatch);
+            }
+            foreach (var item in drawOctopus)
+            {
+                item.Draw(time, spriteBatch);
+            }
+            drawPlayer.Draw(time, spriteBatch);
 
-            text.Draw(spriteBatch, stage.player.totalItems.ToString());
+            if (stage.GameClear)
+                text.Draw(spriteBatch, "GAME CLEAR");
+            else
+                text.Draw(spriteBatch, stage.player.totalItems.ToString());
         }
     }
 }

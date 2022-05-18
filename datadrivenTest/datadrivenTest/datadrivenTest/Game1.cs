@@ -14,14 +14,14 @@ namespace datadrivenTest
         private SpriteBatch _spriteBatch;
         private BasicEffect effect;
 
-        public static readonly int WINDOW_SIZE_X = 628;
-        public static readonly int WINDOW_SIZE_Y = 378;
+        public static readonly int WINDOW_SIZE_X = 612;
+        public static readonly int WINDOW_SIZE_Y = 199;
 
         public static float gameTime;
 
-        Stage stage;
         SoundManager soundManager;
-        DrawGame drawTextures;
+        Stage stage;
+        DrawGame drawGame;
 
         public Game1()
         {
@@ -39,12 +39,11 @@ namespace datadrivenTest
             base.Initialize();
             InputManager.Initialize();
 
-            if (stage == null)
-                stage = new Stage(Initialize);
+            if (stage != null)
+                stage = stage.StageSelect();
             else
-                stage = stage.NextStage();
-
-            drawTextures.Initialize(stage);
+                stage = new Stage(Initialize);
+            drawGame = new DrawGame(Content, stage);
         }
 
         protected override void LoadContent()
@@ -55,7 +54,7 @@ namespace datadrivenTest
             effect = new BasicEffect(GraphicsDevice);
             effect.VertexColorEnabled = true;
             soundManager = new SoundManager(Content);
-            drawTextures = new DrawGame(Content);
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -69,6 +68,8 @@ namespace datadrivenTest
             InputManager.Update();
 
             stage.Update(gameTime);
+            if (stage.gameover == true)
+                Exit();
 
             base.Update(gameTime);
         }
@@ -87,7 +88,7 @@ namespace datadrivenTest
 
             _spriteBatch.Begin();
 
-            drawTextures.Draw(gameTime, _spriteBatch);
+            drawGame.Draw(gameTime, _spriteBatch);
 
             _spriteBatch.End();
 

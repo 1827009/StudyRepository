@@ -11,12 +11,12 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
     class Player:UpdateObject
     {
         const float BLINKING_TIME = 0.25f;
+        const float DAMEGE_WEIT = 2f;
 
         Stage stage;
 
-        public Action updateAction;
 
-        public States states;
+        public Ready states;
 
         public int position = 0;
         public int totalItems = 0;
@@ -40,8 +40,6 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
 
         public override void Update(GameTime time)
         {
-            updateAction?.Invoke();
-
             Control(time);
         }
         float moveWeit = 0;
@@ -55,11 +53,11 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             {
                 getItemWeit -= (float)time.ElapsedGameTime.TotalSeconds;
             }
-            else if (position == stage.tentacles.Count - 1)
+            else if (position == stage.size - 1)
             {
                 if (InputManager.IsKeyDown(Keys.Right) || InputManager.IsKeyDown(Keys.D))
                 {
-                    states = States.Geting;
+                    states = Ready.Geting;
                     totalItems++;
                     getItem = true;
                     getItemWeit = getItemRespons;
@@ -77,7 +75,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
                 // 船へ帰還
                 if (getItem)
                 {
-                    states = States.House;
+                    states = Ready.House;
                     totalItems += 3;
                     getItem = false;
                     houseItemWeit = houseItemRespons;
@@ -88,35 +86,35 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             // 被ダメージ
             if (damegeWeit > 0)
             {
-                states = States.Damage;
+                states = Ready.Damage;
                 moveWeit = damegeWeit;
                 damegeWeit -= (float)time.ElapsedGameTime.TotalSeconds;
             }
-            else if(states==States.Damage)
+            else if(states==Ready.Damage)
             {
-                states = States.Normal;
+                states = Ready.Normal;
             }
 
             // 移動
             if (moveWeit <= 0)
             {
                 if (getItemWeit <= 0 && houseItemWeit <= 0)
-                    states = States.Normal;
+                    states = Ready.Normal;
 
                 if (InputManager.IsJustKeyDown(Keys.Left) || InputManager.IsJustKeyDown(Keys.A))
                 {
                     if (position > 0)
                     {
-                        states = States.Normal;
+                        states = Ready.Normal;
                         moveWeit = moveResponse;
                         position--;
                     }
                 }
                 if (InputManager.IsJustKeyDown(Keys.Right) || InputManager.IsJustKeyDown(Keys.D))
                 {
-                    if (position < stage.tentacles.Count - 1)
+                    if (position < stage.size - 1)
                     {
-                        states = States.Normal;
+                        states = Ready.Normal;
                         position++;
                         moveWeit = moveResponse;
                     }
@@ -133,14 +131,14 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             getItem = false;
             stock--;
 
-            damegeWeit = 3f;
-            states = States.Damage;
+            damegeWeit = DAMEGE_WEIT;
+            states = Ready.Damage;
             position = 0;
         }
 
     }
 
-    enum States {
+    enum Ready {
         Normal,
         Damage,
         House,

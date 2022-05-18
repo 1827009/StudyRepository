@@ -15,7 +15,6 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
         public int maxStep;
         List<int> pattern;
 
-        public bool active = true;
         int step = 0;
         public virtual int Step
         {
@@ -28,8 +27,9 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             }
         }
 
-        public Tentacle(int id, Stage stage)
+        public Tentacle(int id, int pos)
         {
+            position = pos;
             LoadCSV(id);
         }
         public Tentacle(Tentacle tentacle)
@@ -38,21 +38,12 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             speed = tentacle.speed;
             maxStep = tentacle.maxStep;
             pattern = tentacle.pattern;
-            active = tentacle.active;
             step = tentacle.step;
         }
         void LoadCSV(int id)
         {
-            if (id == 0)
-            {
-                active = false;
-                return;
-            }
-
             var data = Utility.ReadCSV("enemy.csv");
             var patternData = Utility.ReadCSV("tentcle_pattern.csv");
-
-            position = id;
 
             speed = float.Parse(data[id.ToString()]["speed"]);
             maxStep = int.Parse(data[id.ToString()]["tentacle_step"]);
@@ -65,7 +56,6 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
 
         public override void Update(GameTime time)
         {
-            if (!active) return;
             Move(time);
         }
         float moveCoolTime = 0f;
@@ -80,6 +70,11 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             moveCoolTime = speed;
             Step += pattern[patternIndex];
             patternIndex = (patternIndex + 1) % pattern.Count;
+        }
+
+        public bool OnAttack
+        {
+            get { return Step == maxStep; }
         }
 
     }

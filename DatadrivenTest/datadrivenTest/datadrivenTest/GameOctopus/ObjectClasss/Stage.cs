@@ -12,8 +12,9 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
         delegate void ObjectUpdates(GameTime time);
         Action initializeEvent;
 
+        public int size;
         public Player player;
-        public List<Tentacle> tentacles;
+        public List<Octopus> enemy;
 
         int stageId = 0;
         public int Id
@@ -36,44 +37,29 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
 
         public Stage(Action initializeEvent)
         {
-            this.initializeEvent = initializeEvent;
-
-            player = new Player(this);
-            player.updateAction += ClearCheck;
-
-            LoadCSV(int.Parse(Utility.ReadCSV("stage_select.csv")["0"]["stage"]));
+            Initialize(int.Parse(Utility.ReadCSV("stage_select.csv")["0"]["stage"]), initializeEvent);
         }
         public Stage(int id, Action initializeEvent)
         {
-            this.initializeEvent = initializeEvent;
-
-            player = new Player(this);
-            player.updateAction += ClearCheck;
-
-            LoadCSV(id);
+            Initialize(id, initializeEvent);
         }
-        public void LoadCSV(int id)
+        void Initialize(int id, Action initializeEvent)
         {
+            this.initializeEvent = initializeEvent;
+            player = new Player(this);
+
             var data = Utility.ReadCSV("stage.csv");
-            var dataClearPoint = Utility.ReadCSV("stage_clear_point.csv");
+
+            enemy = new List<Octopus>();
+            for (int i = 0; i < int.Parse(data[id.ToString()]["enemy_count"]); i++)
+            {
+                enemy.Add(new Octopus(this, Octopus.TENTACLE_COUN * i));
+            }
+            size = int.Parse(data[id.ToString()]["size"]);
+            clearPoint = int.Parse(data[id.ToString()]["clear_point"]);
 
             maxId = data.Count;
             stageId = id > maxId ? maxId - 1 : id;
-            clearPoint = int.Parse(dataClearPoint[stageId.ToString()]["clear_point"]);
-
-            tentacles = new List<Tentacle>(data.Count);
-
-            for (int i = 0; i < data[stageId.ToString()].Count; i++)
-            {
-                // 触手を生成
-                int tentcleId = int.Parse(data[stageId.ToString()][i.ToString()]);
-                Tentacle tentacle = new Tentacle(tentcleId, this);
-                tentacles.Add(tentacle);
-            }
-            // 根っこが同じ触手の特例設定
-            tentacles[1] = new SpritTentacle(tentacles[1], tentacles[2], 2);
-            tentacles[2] = new SpritTentacle(tentacles[2], tentacles[1], 2);
-
         }
 
         public void Update(GameTime time)
@@ -86,14 +72,15 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
                     clearWeitTime -= Game1.gameTime;
                 else if (stageId + 1 != maxId)
                     initializeEvent();
-
+                else
+                    gameover = true;
                 return;
             }
 
             player.Update(time);
-            if (player.states != States.Damage)
+            if (player.states != Ready.Damage)
             {
-                foreach (var item in tentacles)
+                foreach (var item in enemy)
                 {
                     item.Update(time);
                 }
@@ -104,6 +91,10 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
                 gameover = true;
             }
 
+            if (player.totalItems > clearPoint) {
+                GameClear = true;
+            }
+
         }
         /// <summary>
         /// 残機がなくなっていたらtrue
@@ -111,28 +102,31 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
         /// <returns></returns>
         private bool HitCheck()
         {
-            if (tentacles[player.position].active && tentacles[player.position].Step == tentacles[player.position].maxStep)
+            foreach (var item2 in enemy)
             {
-                System.Diagnostics.Debug.WriteLine("ヒット");
-                player.Injured();
-                tentacles[3].Step = 2;
-                
-                if (player.stock < 0)
-                    return true;
+                foreach (var item in item2.tentacles)
+                {
+                    if (item.position == player.position && item.OnAttack)
+                    {
+                        System.Diagnostics.Debug.WriteLine("ヒット");
+                        player.Injured();
+                        item2.EatingMode(player);
+
+                        if (player.stock < 0)
+                            return true;
+                    }
+                }
             }
             return false;
         }
-        public void ClearCheck()
-        {
-            if (player.totalItems >= clearPoint)
-            {
-                //GameClear = true;
-            }
-        }
 
-        public Stage NextStage()
+        public Stage StageSelect()
         {
-            return new Stage(stageId+1, initializeEvent);
+            if (this.GameClear)
+            {
+                return new Stage(Id + 1, initializeEvent);
+            }
+            return new Stage(initializeEvent);
         }
     }
 }

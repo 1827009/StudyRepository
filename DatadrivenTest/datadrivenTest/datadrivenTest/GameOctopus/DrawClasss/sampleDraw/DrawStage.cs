@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using datadrivenTest.GameOctopus.ObjectClasss;
 
-namespace datadrivenTest.GameOctopus.DrawClasss
+namespace datadrivenTest.GameOctopus.DrawClasss.sampleDraws
 {
     class DrawStage
     {

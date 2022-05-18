@@ -116,3 +116,7 @@ C:\Users\ichikawa.mitsuhiro\Documents\project\KensyuGit\datadrivenTest\datadrive
 C:\Users\ichikawa.mitsuhiro\Documents\project\KensyuGit\datadrivenTest\datadrivenTest\datadrivenTest\bin\Debug\netcoreapp3.1\Content\Sounds\bgm\output_bgm.xnb
 C:\Users\ichikawa.mitsuhiro\Documents\project\KensyuGit\datadrivenTest\datadrivenTest\datadrivenTest\bin\Debug\netcoreapp3.1\Content\Sounds\output_bgm.wma
 C:\Users\ichikawa.mitsuhiro\Documents\project\KensyuGit\datadrivenTest\datadrivenTest\datadrivenTest\bin\Debug\netcoreapp3.1\Content\Sounds\output_bgm.xnb
+C:\Users\ichikawa.mitsuhiro\Documents\project\KensyuGit\datadrivenTest\datadrivenTest\datadrivenTest\bin\Debug\netcoreapp3.1\Content\Images\octopus.xnb
+C:\Users\ichikawa.mitsuhiro\Documents\project\KensyuGit\datadrivenTest\datadrivenTest\datadrivenTest\bin\Debug\netcoreapp3.1\Content\Images\octopus_display.xnb
+C:\Users\ichikawa.mitsuhiro\Documents\project\KensyuGit\datadrivenTest\datadrivenTest\datadrivenTest\bin\Debug\netcoreapp3.1\Content\Images\octopus_display_puls.xnb
+C:\Users\ichikawa.mitsuhiro\Documents\project\KensyuGit\datadrivenTest\datadrivenTest\datadrivenTest\bin\Debug\netcoreapp3.1\Content\Images\octopus_display_plus.xnb
