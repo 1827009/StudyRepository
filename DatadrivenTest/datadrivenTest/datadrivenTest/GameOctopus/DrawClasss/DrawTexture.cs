@@ -8,24 +8,34 @@ using Microsoft.Xna.Framework.Content;
 
 namespace datadrivenTest.GameOctopus.DrawClasss
 {
-    class DrawTexture
+    /// <summary>
+    /// Texture2Dの記述量を減らすためだけのクラス
+    /// </summary>
+    class DrawTexture:My.BoneMatrix
     {
-        Texture2D texture = null;
-        public Vector2 position;
+        public Texture2D texture = null;
 
-        public DrawTexture(string fileName, Vector2 pos, ContentManager content)
+        public DrawTexture(string fileName, ContentManager content)
         {
             this.texture = content.Load<Texture2D>(fileName);
-            this.position = pos;
+        }
+        public DrawTexture(string fileName, My.BoneMatrix root, Vector3 pos, ContentManager content):base(root)
+        {
+            this.texture = content.Load<Texture2D>(fileName);
+            LocalMatrix = My.Matrix4x4.CreateTrancerate(MyXNA.ChangeXNA.Change(pos));
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this.texture, position, Color.White);
+            spriteBatch.Draw(this.texture, MyXNA.ChangeXNA.Change(Matrix.Translation.xy), Color.White);
         }
-        public void Draw(SpriteBatch spriteBatch, Vector2 loaclPos)
+        public void Draw(Vector3 position, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this.texture, position+loaclPos, Color.White);
+            spriteBatch.Draw(this.texture, new Vector2(position.X, position.Y), Color.White);
+        }
+        public void Draw(Vector2 position, SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(this.texture, position, Color.White);
         }
     }
 }

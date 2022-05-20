@@ -8,7 +8,7 @@ using datadrivenTest.GameOctopus.ObjectClasss;
 
 namespace datadrivenTest.GameOctopus.DrawClasss
 {
-    class DrawOctopus
+    class DrawOctopus:My.BoneMatrix
     {
         Octopus octopus;
 
@@ -16,49 +16,50 @@ namespace datadrivenTest.GameOctopus.DrawClasss
         DrawTexture texture;
         List<DrawTentacle> drawTentacle;
 
-        public DrawOctopus(ContentManager content, Octopus octopus, Vector2 pos)
+        public DrawOctopus(ContentManager content, Octopus octopus, Vector3 pos, My.BoneMatrix root):base(root)
         {
-            texture = new DrawTexture("Images/octopus", pos, content);
-
+            LocalMatrix = My.Matrix4x4.CreateTrancerate(MyXNA.ChangeXNA.Change(pos));
             this.octopus = octopus;
+            texture = new DrawTexture("Images/octopus", this, Vector3.Zero, content);
+
 
             drawTentacle = new List<DrawTentacle>(5);
 
-            attackPlayerTextures.Add(new DrawTexture("Images/player0_1", Vector2.Zero, content));
-            attackPlayerTextures.Add(new DrawTexture("Images/player0_2", Vector2.Zero, content));
+            attackPlayerTextures.Add(new DrawTexture("Images/player0_1", this, new Vector3(18, 40,0), content));
+            attackPlayerTextures.Add(new DrawTexture("Images/player0_2", this, new Vector3(18, 40,0), content));
 
-            drawTentacle.Add(new DrawTentacle(octopus.tentacles[0],
-                new DrawTexture("Images/tentacle1_3", new Vector2(-20f, 22f) + texture.position, content),
-                new DrawTexture("Images/tentacle1_2", new Vector2(-43f, 22f) + texture.position, content),
-                new DrawTexture("Images/tentacle1_1", new Vector2(-62f, 13f) + texture.position, content)
+            drawTentacle.Add(new DrawTentacle(octopus.tentacles[0],this,
+                new DrawTexture("Images/tentacle1_3", this, new Vector3(-20f, 22f, 0), content),
+                new DrawTexture("Images/tentacle1_2", this, new Vector3(-43f, 22f, 0), content),
+                new DrawTexture("Images/tentacle1_1", this, new Vector3(-62f, 13f, 0), content)
                 ));
 
-            drawTentacle.Add(new DrawTentacle(octopus.tentacles[1],
-                new DrawTexture("Images/tentacle1_3", new Vector2(-20f, 22f) + texture.position, content),
-                new DrawTexture("Images/tentacle1_2_3", new Vector2(-33f, 35f) + texture.position, content),
-                new DrawTexture("Images/tentacle1_2_2", new Vector2(-38f, 43f) + texture.position, content),
-                new DrawTexture("Images/tentacle1_2_1", new Vector2(-53f, 57f) + texture.position, content)
+            drawTentacle.Add(new DrawTentacle(octopus.tentacles[1], this,
+                new DrawTexture("Images/tentacle1_3", this, new Vector3(-20f, 22f, 0), content),
+                new DrawTexture("Images/tentacle1_2_3", this, new Vector3(-33f, 35f, 0), content),
+                new DrawTexture("Images/tentacle1_2_2", this, new Vector3(-38f, 43f, 0), content),
+                new DrawTexture("Images/tentacle1_2_1", this, new Vector3(-53f, 57f, 0), content)
                 ));
 
-            drawTentacle.Add(new DrawTentacle(octopus.tentacles[2],
-                new DrawTexture("Images/tentacle2_5", new Vector2(7f, 35f) + texture.position, content),
-                new DrawTexture("Images/tentacle2_4", new Vector2(7f, 42f) + texture.position, content),
-                new DrawTexture("Images/tentacle2_3", new Vector2(0f, 57f) + texture.position, content),
-                new DrawTexture("Images/tentacle2_2", new Vector2(-3f, 68f) + texture.position, content),
-                new DrawTexture("Images/tentacle2_1", new Vector2(-7f, 81f) + texture.position, content)
+            drawTentacle.Add(new DrawTentacle(octopus.tentacles[2], this,
+                new DrawTexture("Images/tentacle2_5", this, new Vector3(7f, 35f, 0), content),
+                new DrawTexture("Images/tentacle2_4", this, new Vector3(7f, 42f, 0), content),
+                new DrawTexture("Images/tentacle2_3", this, new Vector3(0f, 57f, 0), content),
+                new DrawTexture("Images/tentacle2_2", this, new Vector3(-3f, 68f, 0), content),
+                new DrawTexture("Images/tentacle2_1", this, new Vector3(-7f, 81f, 0), content)
                 ));
 
-            drawTentacle.Add(new DrawTentacle(octopus.tentacles[3],
-                new DrawTexture("Images/tentacle3_4", new Vector2(40f, 50f) + texture.position, content),
-                new DrawTexture("Images/tentacle3_3", new Vector2(40f, 63f) + texture.position, content),
-                new DrawTexture("Images/tentacle3_2", new Vector2(40f, 78f) + texture.position, content),
-                new DrawTexture("Images/tentacle3_1", new Vector2(40f, 95f) + texture.position, content)
+            drawTentacle.Add(new DrawTentacle(octopus.tentacles[3], this,
+                new DrawTexture("Images/tentacle3_4", this, new Vector3(40f, 50f, 0), content),
+                new DrawTexture("Images/tentacle3_3", this, new Vector3(40f, 63f, 0), content),
+                new DrawTexture("Images/tentacle3_2", this, new Vector3(40f, 78f, 0), content),
+                new DrawTexture("Images/tentacle3_1", this, new Vector3(40f, 95f, 0), content)
                 ));
 
-            drawTentacle.Add(new DrawTentacle(octopus.tentacles[4],
-                new DrawTexture("Images/tentacle4_3", new Vector2(95f, 67f) + texture.position, content),
-                new DrawTexture("Images/tentacle4_2", new Vector2(98f, 77f) + texture.position, content),
-                new DrawTexture("Images/tentacle4_1", new Vector2(101f, 92f) + texture.position, content)
+            drawTentacle.Add(new DrawTentacle(octopus.tentacles[4], this,
+                new DrawTexture("Images/tentacle4_3", this, new Vector3(95f, 67f, 0), content),
+                new DrawTexture("Images/tentacle4_2", this, new Vector3(98f, 77f, 0), content),
+                new DrawTexture("Images/tentacle4_1", this, new Vector3(101f, 92f, 0), content)
                 ));
         }
 
@@ -75,9 +76,9 @@ namespace datadrivenTest.GameOctopus.DrawClasss
                 animationTime += (float)time.ElapsedGameTime.TotalSeconds;
                 animationTime %= 1f;
                 if (animationTime > 0.5f)
-                    attackPlayerTextures[0].Draw(spriteBatch, new Vector2(18, 40) + texture.position);
+                    attackPlayerTextures[0].Draw(spriteBatch);
                 else
-                    attackPlayerTextures[1].Draw(spriteBatch, new Vector2(18, 40) + texture.position);
+                    attackPlayerTextures[1].Draw(spriteBatch);
             }
 
             texture.Draw(spriteBatch);

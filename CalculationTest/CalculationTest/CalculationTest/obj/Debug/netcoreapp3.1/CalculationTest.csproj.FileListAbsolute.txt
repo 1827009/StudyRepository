@@ -35,3 +35,4 @@ C:\Users\ichikawa.mitsuhiro\Documents\project\KensyuGit\CalculationTest\Calculat
 C:\Users\ichikawa.mitsuhiro\Documents\project\KensyuGit\CalculationTest\CalculationTest\CalculationTest\obj\Debug\netcoreapp3.1\CalculationTest.dll
 C:\Users\ichikawa.mitsuhiro\Documents\project\KensyuGit\CalculationTest\CalculationTest\CalculationTest\obj\Debug\netcoreapp3.1\CalculationTest.pdb
 C:\Users\ichikawa.mitsuhiro\Documents\project\KensyuGit\CalculationTest\CalculationTest\CalculationTest\obj\Debug\netcoreapp3.1\CalculationTest.genruntimeconfig.cache
+C:\Users\ichikawa.mitsuhiro\Documents\project\KensyuGit\CalculationTest\CalculationTest\CalculationTest\bin\Debug\netcoreapp3.1\C3.MonoGame.Primitives2D.dll

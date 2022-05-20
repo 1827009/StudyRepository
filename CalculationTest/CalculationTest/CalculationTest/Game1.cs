@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MyXNA;
+using CalculationTest.SampleGames;
 
 namespace CalculationTest
 {
@@ -10,30 +11,26 @@ namespace CalculationTest
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         BasicEffect effect;
+        public static readonly int WINDOW_SIZE_X=900;
+        public static readonly int WINDOW_SIZE_Y=900;
 
-        My.BoneMatrix root;
-        DrawBox[] box;
+        SampleGame game;
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            _graphics.PreferredBackBufferWidth = WINDOW_SIZE_X;
+            _graphics.PreferredBackBufferHeight = WINDOW_SIZE_Y;
         }
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            root = new My.BoneMatrix(3);
+            InputManager.Initialize();
 
-            box = new DrawBox[5];
-            box[0] = new DrawBox(new My.BoneMatrix(root), Color.Red, Vector3.One);
-            for (int i = 1; i < 5; i++)
-            {
-                Matrix matrix = Matrix.Identity;
-                matrix.Translation = new Vector3(0, 0.21f, 0);
-                box[i] = new DrawBox(new My.BoneMatrix(box[i-1].matrix, ChangeXNA.MatrixXNAToMy(matrix)), Color.Red, Vector3.One);
-            }
+            game = new SampleGame3();
 
             base.Initialize();
         }
@@ -53,33 +50,30 @@ namespace CalculationTest
                 Exit();
 
             // TODO: Add your update logic here
-            root.Update(root);
+            InputManager.Update();
 
-
-            for (int i = 1; i < 5; i++)
-            {
-                box[i].matrix.LocalMatrix *= My.Matrix4x4.CreateRotation(MathHelper.ToRadians(5));
-            }
+            if (InputManager.IsKeyDown(Keys.Space))
+                game.Update(gameTime);
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
-
             foreach (var pass in effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
 
-                foreach (var item in box)
-                {
-                    item.Draw(_graphics.GraphicsDevice);
-                }
             }
 
+            _spriteBatch.Begin();
+
+            game.Draw(_spriteBatch, gameTime);
+
+            _spriteBatch.End();
             base.Draw(gameTime);
         }
     }

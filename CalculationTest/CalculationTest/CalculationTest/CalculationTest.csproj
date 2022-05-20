@@ -20,4 +20,9 @@
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="C3.MonoGame.Primitives2D">
+      <HintPath>..\..\..\..\..\tools\other\C3.MonoGame.Primitives2D-master\bin\Debug\C3.MonoGame.Primitives2D.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

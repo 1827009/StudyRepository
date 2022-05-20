@@ -10,32 +10,38 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
 {
     class Player:UpdateObject
     {
-        const float BLINKING_TIME = 0.25f;
         const float DAMEGE_WEIT = 2f;
 
         Stage stage;
 
-
-        public Ready states;
+        // プレイヤーの状態
+        public Ready ready;
 
         public int position = 0;
         public int totalItems = 0;
         public bool getItem = false;
 
+        // csvファイルに依存するパラメータ
         public float stock;
-        public readonly float moveResponse;
-        public readonly float getItemRespons;
-        public readonly float houseItemRespons;
+        public float moveResponse;
+        public float getItemRespons;
+        public float houseItemRespons;
 
         public Player(Stage stage)
         {
             this.stage = stage;
 
-            var data = Utility.ReadCSV("player.csv");
+            LoadCSV();
+        }
+        public void LoadCSV()
+        {
+            var data = Utility.ReadCSV("config/player.csv");
             stock= float.Parse(data["stock"]["status"]);
             moveResponse = float.Parse(data["move_respons"]["status"]);
             getItemRespons = float.Parse(data["get_item_respons"]["status"]);
             houseItemRespons = float.Parse(data["house_item_weit"]["status"]);
+
+            System.Diagnostics.Debug.WriteLine("playerのパラメータを更新しました");
         }
 
         public override void Update(GameTime time)
@@ -57,7 +63,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             {
                 if (InputManager.IsKeyDown(Keys.Right) || InputManager.IsKeyDown(Keys.D))
                 {
-                    states = Ready.Geting;
+                    ready = Ready.Geting;
                     totalItems++;
                     getItem = true;
                     getItemWeit = getItemRespons;
@@ -75,7 +81,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
                 // 船へ帰還
                 if (getItem)
                 {
-                    states = Ready.House;
+                    ready = Ready.House;
                     totalItems += 3;
                     getItem = false;
                     houseItemWeit = houseItemRespons;
@@ -86,26 +92,26 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             // 被ダメージ
             if (damegeWeit > 0)
             {
-                states = Ready.Damage;
+                ready = Ready.Damage;
                 moveWeit = damegeWeit;
                 damegeWeit -= (float)time.ElapsedGameTime.TotalSeconds;
             }
-            else if(states==Ready.Damage)
+            else if(ready==Ready.Damage)
             {
-                states = Ready.Normal;
+                ready = Ready.Normal;
             }
 
             // 移動
             if (moveWeit <= 0)
             {
                 if (getItemWeit <= 0 && houseItemWeit <= 0)
-                    states = Ready.Normal;
+                    ready = Ready.Normal;
 
                 if (InputManager.IsJustKeyDown(Keys.Left) || InputManager.IsJustKeyDown(Keys.A))
                 {
                     if (position > 0)
                     {
-                        states = Ready.Normal;
+                        ready = Ready.Normal;
                         moveWeit = moveResponse;
                         position--;
                     }
@@ -114,7 +120,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
                 {
                     if (position < stage.size - 1)
                     {
-                        states = Ready.Normal;
+                        ready = Ready.Normal;
                         position++;
                         moveWeit = moveResponse;
                     }
@@ -132,7 +138,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             stock--;
 
             damegeWeit = DAMEGE_WEIT;
-            states = Ready.Damage;
+            ready = Ready.Damage;
             position = 0;
         }
 

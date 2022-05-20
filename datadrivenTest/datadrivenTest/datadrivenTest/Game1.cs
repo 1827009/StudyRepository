@@ -71,12 +71,13 @@ namespace datadrivenTest
             if (stage.gameover == true)
                 Exit();
 
+
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
             Game1.gameTime = (float)gameTime.ElapsedGameTime.TotalSeconds;

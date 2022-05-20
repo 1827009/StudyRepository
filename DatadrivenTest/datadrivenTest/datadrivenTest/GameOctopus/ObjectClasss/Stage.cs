@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace datadrivenTest.GameOctopus.ObjectClasss
 {
     class Stage
     {
+        // ステージをクリアしてから次に移るまでの時間
         const float CLEAR_WEIT_TIME = 3;
 
         delegate void ObjectUpdates(GameTime time);
@@ -37,34 +39,58 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
 
         public Stage(Action initializeEvent)
         {
-            Initialize(int.Parse(Utility.ReadCSV("stage_select.csv")["0"]["stage"]), initializeEvent);
+            Initialize(int.Parse(Utility.ReadCSV("config\\stage_select.csv")["0"]["stage"]), initializeEvent);
         }
         public Stage(int id, Action initializeEvent)
         {
             Initialize(id, initializeEvent);
         }
+
         void Initialize(int id, Action initializeEvent)
         {
             this.initializeEvent = initializeEvent;
             player = new Player(this);
 
-            var data = Utility.ReadCSV("stage.csv");
+            LoadCSV(id);
+        }
+        public void LoadCSV(int id)
+        {
+            var data = Utility.ReadCSV("config/stage.csv");
 
             enemy = new List<Octopus>();
-            for (int i = 0; i < int.Parse(data[id.ToString()]["enemy_count"]); i++)
+            for (int i = 0; i < int.Parse(data[id.ToString()]["size"]); i++)
             {
-                enemy.Add(new Octopus(this, Octopus.TENTACLE_COUN * i));
+                enemy.Add(new Octopus(this, Octopus.TENTACLE_COUNT * i + 1));
             }
-            size = int.Parse(data[id.ToString()]["size"]);
+            size = int.Parse(data[id.ToString()]["size"]) * 5 + 1;
             clearPoint = int.Parse(data[id.ToString()]["clear_point"]);
-
             maxId = data.Count;
             stageId = id > maxId ? maxId - 1 : id;
+            System.Diagnostics.Debug.WriteLine("stageのパラメータを更新しました");
+        }
+
+        public void LoadCSVs()
+        {
+            if(InputManager.IsJustKeyDown(Keys.S)){
+                this.LoadCSV(Id);
+            }
+            if (InputManager.IsJustKeyDown(Keys.P))
+            {
+                player.LoadCSV();
+            }
+            if (InputManager.IsJustKeyDown(Keys.E))
+            {
+                foreach (var item in enemy)
+                {
+                    item.LoadCSV();
+                }
+            }
         }
 
         public void Update(GameTime time)
         {
             if (gameover) return;
+            LoadCSVs();
 
             if (GameClear)
             {
@@ -78,7 +104,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             }
 
             player.Update(time);
-            if (player.states != Ready.Damage)
+            if (player.ready != Ready.Damage)
             {
                 foreach (var item in enemy)
                 {

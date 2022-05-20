@@ -8,12 +8,12 @@ using datadrivenTest.GameOctopus.ObjectClasss;
 
 namespace datadrivenTest.GameOctopus.DrawClasss
 {
-    class DrawTentacle
+    class DrawTentacle: My.BoneMatrix
     {
         Tentacle tentacle;
         List<DrawTexture> textures;
 
-        public DrawTentacle(Tentacle tentacle, params DrawTexture[] tex)
+        public DrawTentacle(Tentacle tentacle, My.BoneMatrix root, params DrawTexture[] tex):base(root)
         {
             this.tentacle = tentacle;
 

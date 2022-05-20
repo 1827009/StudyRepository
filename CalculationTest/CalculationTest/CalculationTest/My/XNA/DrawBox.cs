@@ -37,7 +37,7 @@ namespace MyXNA
         {
             for (int i = 0; i < vertices.Length; i++)
             {
-                Vector3 vec = (ChangeXNA.MatrixMyToXNA(matrix.Matrix) * vertexMatrix[i]).Translation;                
+                Vector3 vec = (ChangeXNA.Change(matrix.Matrix) * vertexMatrix[i]).Translation;                
                 vertices[i].Position = vec;
             }
         }

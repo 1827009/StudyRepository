@@ -8,12 +8,13 @@ using datadrivenTest.GameOctopus.ObjectClasss;
 
 namespace datadrivenTest.GameOctopus.DrawClasss
 {
-    class DrawGame
+    class DrawGame:My.BoneMatrix
     {
         Stage stage;
 
-        List<DrawTexture> textures=new List<DrawTexture>();
+        List<DrawTexture> buckGround=new List<DrawTexture>();
         DrawPlayer drawPlayer;
+        DrawTexture stockTextures;
         List<DrawOctopus> drawOctopus=new List<DrawOctopus>();
 
         DrawText text;
@@ -22,10 +23,10 @@ namespace datadrivenTest.GameOctopus.DrawClasss
         {
             this.stage = stage;
 
-            drawPlayer = new DrawPlayer(content, stage.player);
+            drawPlayer = new DrawPlayer(content, stage.player, this);
             for (int i = 0; i < stage.enemy.Count; i++)
             {
-                drawOctopus.Add(new DrawOctopus(content, stage.enemy[i], new Vector2(120 + (i * 304), 40)));
+                drawOctopus.Add(new DrawOctopus(content, stage.enemy[i], new Vector3(120 + (i * 304), 40, 0), this));
             }
             LoadStageTextuer(content);
 
@@ -34,20 +35,34 @@ namespace datadrivenTest.GameOctopus.DrawClasss
 
         public void LoadStageTextuer(ContentManager content)
         {
-            if (stage.size <= 6)
-                textures.Add(new DrawTexture("Images/octopus_display", Vector2.Zero, content));
-            else
+
+            for (int i = 0; i < stage.size / 5 - 1; i++)
             {
-                textures.Add(new DrawTexture("Images/octopus_display_plus", Vector2.Zero, content));
-                textures.Add(new DrawTexture("Images/octopus_display", new Vector2(Game1.WINDOW_SIZE_X * 0.5f, 0), content));
+                buckGround.Add(new DrawTexture("Images/octopus_display_plus", this, Vector3.Zero, content));
             }
+            buckGround.Add(new DrawTexture("Images/octopus_display", this, Vector3.Zero, content));
+
+            for (int i = 0; i < buckGround.Count; i++)
+            {
+                buckGround[i].LocalMatrix = My.Vector3.CreateTrancerate(new My.Vector3(buckGround[0].texture.Width * i, 0, 0));
+            }
+            LocalMatrix = My.Matrix4x4.CreateTrancerate(new My.Vector3((Game1.WINDOW_SIZE_X * 0.5f) - (buckGround[0].texture.Width * 0.5f * buckGround.Count), 0, 0));
+
+            stockTextures = new DrawTexture("Images/stock", this, new Vector3(230f, 100f, 0), content);
         }
 
         public void Draw(GameTime time, SpriteBatch spriteBatch)
         {
-            foreach (var item in textures)
+            Update(new My.BoneMatrix(),true);
+
+
+            foreach (var item in buckGround)
             {
                 item.Draw(spriteBatch);
+            }
+            for (int i = 0; i < stage.player.stock; i++)
+            {
+                stockTextures.Draw(new Vector3(27 * i + 62 , 7, 0) + MyXNA.ChangeXNA.Change(Matrix.Translation), spriteBatch);
             }
             foreach (var item in drawOctopus)
             {
