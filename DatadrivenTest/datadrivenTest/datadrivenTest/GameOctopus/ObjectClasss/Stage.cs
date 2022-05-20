@@ -10,11 +10,15 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
     {
         // ステージをクリアしてから次に移るまでの時間
         const float CLEAR_WEIT_TIME = 3;
+        // ステージ1ページの大きさ
+        public const int STAGE_SIZE = 5;
 
         delegate void ObjectUpdates(GameTime time);
         Action initializeEvent;
 
         public int size;
+        public int Size { get { return size; } }
+
         public Player player;
         public List<Octopus> enemy;
 
@@ -62,7 +66,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             {
                 enemy.Add(new Octopus(this, Octopus.TENTACLE_COUNT * i + 1));
             }
-            size = int.Parse(data[id.ToString()]["size"]) * 5 + 1;
+            size = int.Parse(data[id.ToString()]["size"]) * STAGE_SIZE + 1;
             clearPoint = int.Parse(data[id.ToString()]["clear_point"]);
             maxId = data.Count;
             stageId = id > maxId ? maxId - 1 : id;
@@ -72,7 +76,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
         public void LoadCSVs()
         {
             if(InputManager.IsJustKeyDown(Keys.S)){
-                this.LoadCSV(Id);
+                this.initializeEvent();
             }
             if (InputManager.IsJustKeyDown(Keys.P))
             {

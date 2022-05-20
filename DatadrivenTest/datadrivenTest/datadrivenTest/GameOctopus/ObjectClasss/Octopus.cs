@@ -30,19 +30,12 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             System.Diagnostics.Debug.WriteLine("enemyのパラメータを更新しました");
         }
 
-        float attackWeit = 0;
         public override void Update(GameTime time)
         {
             base.Update(time);
                         
             if (ready == EnemyReady.Attack)
             {
-                if (attackWeit > 0)
-                {
-                    attackWeit -= (float)time.ElapsedGameTime.TotalSeconds;
-                    return;
-                }
-                else
                     ready = EnemyReady.Normal;
             }
 
@@ -55,7 +48,6 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
 
         public void EatingMode(Player player)
         {
-            attackWeit = 2f;
             ready = EnemyReady.Attack;
             tentacles[2].Step = 2;
         }

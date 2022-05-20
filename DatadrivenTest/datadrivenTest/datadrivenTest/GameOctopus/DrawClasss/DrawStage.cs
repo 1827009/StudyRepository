@@ -8,7 +8,7 @@ using datadrivenTest.GameOctopus.ObjectClasss;
 
 namespace datadrivenTest.GameOctopus.DrawClasss
 {
-    class DrawGame:My.BoneMatrix
+    class DrawStage:My.BoneMatrix
     {
         Stage stage;
 
@@ -19,7 +19,7 @@ namespace datadrivenTest.GameOctopus.DrawClasss
 
         DrawText text;
 
-        public DrawGame(ContentManager content, Stage stage)
+        public DrawStage(ContentManager content, Stage stage)
         {
             this.stage = stage;
 
@@ -36,7 +36,7 @@ namespace datadrivenTest.GameOctopus.DrawClasss
         public void LoadStageTextuer(ContentManager content)
         {
 
-            for (int i = 0; i < stage.size / 5 - 1; i++)
+            for (int i = 0; i < stage.Size / Stage.STAGE_SIZE - 1; i++)
             {
                 buckGround.Add(new DrawTexture("Images/octopus_display_plus", this, Vector3.Zero, content));
             }

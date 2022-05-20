@@ -59,7 +59,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             {
                 getItemWeit -= (float)time.ElapsedGameTime.TotalSeconds;
             }
-            else if (position == stage.size - 1)
+            else if (position == stage.Size - 1)
             {
                 if (InputManager.IsKeyDown(Keys.Right) || InputManager.IsKeyDown(Keys.D))
                 {
@@ -118,7 +118,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
                 }
                 if (InputManager.IsJustKeyDown(Keys.Right) || InputManager.IsJustKeyDown(Keys.D))
                 {
-                    if (position < stage.size - 1)
+                    if (position < stage.Size - 1)
                     {
                         ready = Ready.Normal;
                         position++;

@@ -21,7 +21,7 @@ namespace datadrivenTest
 
         SoundManager soundManager;
         Stage stage;
-        DrawGame drawGame;
+        DrawStage drawGame;
 
         public Game1()
         {
@@ -43,7 +43,7 @@ namespace datadrivenTest
                 stage = stage.StageSelect();
             else
                 stage = new Stage(Initialize);
-            drawGame = new DrawGame(Content, stage);
+            drawGame = new DrawStage(Content, stage);
         }
 
         protected override void LoadContent()
