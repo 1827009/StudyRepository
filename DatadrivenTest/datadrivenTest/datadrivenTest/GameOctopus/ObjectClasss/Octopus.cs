@@ -12,23 +12,37 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
 
         public List<Tentacle> tentacles = new List<Tentacle>();
 
-        public Octopus(Stage stage, int position)
+        int id = 0;
+
+        public Octopus(Stage stage, int id, int position)
         {
+            this.id = id;
+
+            var data = My.CsvControler.ReadCSV("config/enemy.csv");
             for (int i = 0; i < TENTACLE_COUNT; i++)
             {
-                this.tentacles.Add(new Tentacle(i, i + position));
-            }
-            tentacles[0] = new SpritTentacle(tentacles[0], tentacles[1], 2);
-            tentacles[1] = new SpritTentacle(tentacles[1], tentacles[0], 2);
+                if (i == 1)
+                    this.tentacles.Add(new SpritTentacle(int.Parse(data[id.ToString()]["tentacle" + i]), i + position, tentacles[0]));
 
+                this.tentacles.Add(new Tentacle(int.Parse(data[id.ToString()]["tentacle" + i]), i + position));
+            }
+
+            tentacles[0].maxStep = 3;
+            tentacles[1].maxStep = 4;
+            tentacles[2].maxStep = 5;
+            tentacles[3].maxStep = 4;
+            tentacles[4].maxStep = 3;
 
             My.FileDataUpdater.Instance.AddUpdateAction("enemy.csv", CsvUpdate);
+            My.FileDataUpdater.Instance.AddUpdateAction("tentacle.csv", CsvUpdate);
+            My.FileDataUpdater.Instance.AddUpdateAction("tentacle_pattern.csv", CsvUpdate);
         }
         public void CsvUpdate()
         {
+
             for (int i = 0; i < TENTACLE_COUNT; i++)
             {
-                tentacles[i].CsvLoad(i);
+                tentacles[i].CsvLoad();
             }
             System.Diagnostics.Debug.WriteLine("enemyのパラメータを更新しました");
         }
@@ -42,9 +56,9 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
                     ready = EnemyReady.Normal;
             }
 
-            foreach (var item in tentacles)
+            for (int i = 1; i < tentacles.Count; i++)
             {
-                item.Update(time);
+                tentacles[i].Update(time);
             }
 
         }

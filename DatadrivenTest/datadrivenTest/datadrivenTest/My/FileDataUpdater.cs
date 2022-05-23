@@ -19,6 +19,11 @@ namespace My
         {
             get { return updateAction; }
         }
+        /// <summary>
+        /// ファイルの自動反映の登録
+        /// </summary>
+        /// <param name="fileName">影響を受けるファイル</param>
+        /// <param name="action">実行するメソッド</param>
         public void AddUpdateAction(string fileName, Action action)
         {
             if (!My.FileDataUpdater.Instance.UpdateAction.ContainsKey(fileName))
@@ -48,6 +53,11 @@ namespace My
             watcher.EnableRaisingEvents = true;
         }
 
+        /// <summary>
+        /// ファイルの更新時呼ばれるメソッド
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="e"></param>
         private void watcher_Changed(System.Object source,
             FileSystemEventArgs e)
         {

@@ -8,7 +8,7 @@ namespace My
     class CsvControler
     {
         /// <summary>
-        /// svcファイル読み出し。アクセスはすべて文字列
+        /// svcファイル読み出し。Key,Idはすべて文字列
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>

@@ -13,7 +13,6 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
         // ステージ1ページの大きさ
         public const int STAGE_SIZE = 5;
 
-        delegate void ObjectUpdates(GameTime time);
         Action initializeEvent;
 
         public int size;
@@ -43,7 +42,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
 
         public Stage(Action initializeEvent)
         {
-            Initialize(int.Parse(My.CsvControler.ReadCSV("config\\stage_select.csv")["0"]["stage"]), initializeEvent);
+            Initialize(int.Parse(My.CsvControler.ReadCSV("config/stage_select.csv")["0"]["stage"]), initializeEvent);
         }
         public Stage(int id, Action initializeEvent)
         {
@@ -64,7 +63,9 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             enemy = new List<Octopus>();
             for (int i = 0; i < int.Parse(data[id.ToString()]["size"]); i++)
             {
-                enemy.Add(new Octopus(this, Octopus.TENTACLE_COUNT * i + 1));
+                string eId = data[id.ToString()]["enemy" + i];
+                if (eId != "0" && eId != "")
+                    enemy.Add(new Octopus(this, int.Parse(data[id.ToString()]["enemy" + i]), Octopus.TENTACLE_COUNT * i + 1));
             }
             size = int.Parse(data[id.ToString()]["size"]) * STAGE_SIZE + 1;
             clearPoint = int.Parse(data[id.ToString()]["clear_point"]);

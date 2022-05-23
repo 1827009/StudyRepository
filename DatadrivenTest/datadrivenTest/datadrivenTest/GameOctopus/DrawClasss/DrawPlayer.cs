@@ -82,47 +82,47 @@ namespace datadrivenTest.GameOctopus.DrawClasss
             switch (player.position)
             {
                 case 0:
-                    result = new Vector2(190f, 100f) + new Vector2(-158, -95);
+                    result = new Vector2(32, 5);
                     break;
 
                 case 1:
-                    result = new Vector2(185f, 150f) + new Vector2(-158, -95);
+                    result = new Vector2(27, 55);
                     break;
 
                 case 2:
-                    result = new Vector2(185f, 205f) + new Vector2(-158, -95);
+                    result = new Vector2(27, 110);
                     break;
 
                 case 3:
-                    result = new Vector2(245f, 225f) + new Vector2(-158, -95);
+                    result = new Vector2(87, 130);
                     break;
 
                 case 4:
-                    result = new Vector2(305f, 225f) + new Vector2(-158, -95);
+                    result = new Vector2(147, 130);
                     break;
 
                 case 5:
-                    result = new Vector2(350f, 225f) + new Vector2(-158, -95);
+                    result = new Vector2(192, 130);
                     break;
 
                 case 6:
-                    result = new Vector2(489f, 150f) + new Vector2(-158, -95);
+                    result = new Vector2(331, 55);
                     break;
 
                 case 7:
-                    result = new Vector2(489f, 205f) + new Vector2(-158, -95);
+                    result = new Vector2(331, 110);
                     break;
 
                 case 8:
-                    result = new Vector2(549f, 225f) + new Vector2(-158, -95);
+                    result = new Vector2(391, 130);
                     break;
 
                 case 9:
-                    result = new Vector2(604f, 225f) + new Vector2(-158, -95);
+                    result = new Vector2(446, 130);
                     break;
 
                 case 10:
-                    result = new Vector2(654f, 225f) + new Vector2(-158, -95);
+                    result = new Vector2(496, 130);
                     break;
             }
             LocalMatrix = My.Matrix4x4.CreateTrancerate(MyXNA.ChangeXNA.Change(result).xy0);

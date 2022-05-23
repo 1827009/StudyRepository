@@ -7,24 +7,26 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
 {
     class SpritTentacle:Tentacle
     {
-        public Tentacle rootTentacle = null;
-        public int rootStep = 0;
+        Tentacle tentacle2;
+        bool sprit = false;
         public override int Step
         {
             get { return base.Step; }
             set
             {
                 // 根っこが同じで片方にしか伸びない触手のための処理
-                if (rootTentacle != null && rootStep <= rootTentacle.Step)
-                    return;
+                if (sprit)
+                    tentacle2.Step = value;
+                else
+                    base.Step = value;
 
-                base.Step = value;
+                if (value <= 0)
+                    sprit = !sprit;
             }
         }
 
-        public SpritTentacle(Tentacle baseTentacle, Tentacle rootTentacle, int rootStep):base(baseTentacle){
-            this.rootTentacle = rootTentacle;
-            this.rootStep = rootStep;
+        public SpritTentacle(int id, int pos, Tentacle tentacle):base(id, pos){
+            tentacle2 = tentacle;
         }
     }
 }

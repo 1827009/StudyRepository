@@ -10,8 +10,10 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
     {
         public int position;
 
-        public float speed;
+        int id;
         public int maxStep;
+
+        public float speed;
         List<int> pattern;
 
         int step = 0;
@@ -29,7 +31,8 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
         public Tentacle(int id, int pos)
         {
             position = pos;
-            CsvLoad(id);
+            this.id = id;
+            CsvLoad();
         }
         public Tentacle(Tentacle tentacle)
         {
@@ -39,13 +42,13 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             pattern = tentacle.pattern;
             step = tentacle.step;
         }
-        public void CsvLoad(int id)
+        public void CsvLoad()
         {
-            var data = My.CsvControler.ReadCSV("config/enemy.csv");
-            var patternData = My.CsvControler.ReadCSV("config/tentcle_pattern.csv");
+            var data = My.CsvControler.ReadCSV("config/tentacles.csv");
+            var patternData = My.CsvControler.ReadCSV("config/tentacle_pattern.csv");
 
             speed = float.Parse(data[id.ToString()]["speed"]);
-            maxStep = int.Parse(data[id.ToString()]["tentacle_step"]);
+            //maxStep = int.Parse(data[id.ToString()]["tentacle_step"]);
             pattern = new List<int>();
             foreach (var i in patternData[data[id.ToString()]["tentacle_pattern"]])
             {
