@@ -22,7 +22,7 @@ namespace datadrivenTest
         SoundManager soundManager;
         Stage stage;
         DrawStage drawGame;
-
+                
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -31,13 +31,16 @@ namespace datadrivenTest
 
             _graphics.PreferredBackBufferWidth = WINDOW_SIZE_X;
             _graphics.PreferredBackBufferHeight = WINDOW_SIZE_Y;
+
+            My.FileDataUpdater.Instance.OnUpdate(@"config");
         }
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
             base.Initialize();
-            InputManager.Initialize();
+            MyXNA.InputManager.Initialize();
+            My.FileDataUpdater.Instance.UpdateAction.Clear();
 
             if (stage != null)
                 stage = stage.StageSelect();
@@ -65,13 +68,13 @@ namespace datadrivenTest
                 Exit();
 
             // TODO: Add your update logic here7
-            InputManager.Update();
+            MyXNA.InputManager.Update();
 
             stage.Update(gameTime);
             if (stage.gameover == true)
                 Exit();
 
-
+            
             base.Update(gameTime);
         }
 

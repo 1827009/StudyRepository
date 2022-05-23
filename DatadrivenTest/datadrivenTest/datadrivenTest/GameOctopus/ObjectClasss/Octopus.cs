@@ -20,12 +20,15 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             }
             tentacles[0] = new SpritTentacle(tentacles[0], tentacles[1], 2);
             tentacles[1] = new SpritTentacle(tentacles[1], tentacles[0], 2);
+
+
+            My.FileDataUpdater.Instance.AddUpdateAction("enemy.csv", CsvUpdate);
         }
-        public void LoadCSV()
+        public void CsvUpdate()
         {
             for (int i = 0; i < TENTACLE_COUNT; i++)
             {
-                tentacles[i].LoadCSV(i);
+                tentacles[i].CsvLoad(i);
             }
             System.Diagnostics.Debug.WriteLine("enemyのパラメータを更新しました");
         }

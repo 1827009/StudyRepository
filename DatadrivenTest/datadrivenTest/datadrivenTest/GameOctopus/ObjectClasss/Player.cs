@@ -31,11 +31,12 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
         {
             this.stage = stage;
 
-            LoadCSV();
+            CsvUpdate();
+            My.FileDataUpdater.Instance.AddUpdateAction("player.csv", CsvUpdate);
         }
-        public void LoadCSV()
+        public void CsvUpdate()
         {
-            var data = Utility.ReadCSV("config/player.csv");
+            var data = My.CsvControler.ReadCSV("config/player.csv");
             stock= float.Parse(data["stock"]["status"]);
             moveResponse = float.Parse(data["move_respons"]["status"]);
             getItemRespons = float.Parse(data["get_item_respons"]["status"]);
@@ -48,6 +49,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
         {
             Control(time);
         }
+        // 時間を保持する変数
         float moveWeit = 0;
         float getItemWeit = 0;
         float houseItemWeit = 0;
@@ -61,7 +63,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             }
             else if (position == stage.Size - 1)
             {
-                if (InputManager.IsKeyDown(Keys.Right) || InputManager.IsKeyDown(Keys.D))
+                if (MyXNA.InputManager.IsKeyDown(Keys.Right) || MyXNA.InputManager.IsKeyDown(Keys.D))
                 {
                     ready = Ready.Geting;
                     totalItems++;
@@ -107,7 +109,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
                 if (getItemWeit <= 0 && houseItemWeit <= 0)
                     ready = Ready.Normal;
 
-                if (InputManager.IsJustKeyDown(Keys.Left) || InputManager.IsJustKeyDown(Keys.A))
+                if (MyXNA.InputManager.IsJustKeyDown(Keys.Left) || MyXNA.InputManager.IsJustKeyDown(Keys.A))
                 {
                     if (position > 0)
                     {
@@ -116,7 +118,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
                         position--;
                     }
                 }
-                if (InputManager.IsJustKeyDown(Keys.Right) || InputManager.IsJustKeyDown(Keys.D))
+                if (MyXNA.InputManager.IsJustKeyDown(Keys.Right) || MyXNA.InputManager.IsJustKeyDown(Keys.D))
                 {
                     if (position < stage.Size - 1)
                     {

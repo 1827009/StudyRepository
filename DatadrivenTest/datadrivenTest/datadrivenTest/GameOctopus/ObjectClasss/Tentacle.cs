@@ -29,7 +29,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
         public Tentacle(int id, int pos)
         {
             position = pos;
-            LoadCSV(id);
+            CsvLoad(id);
         }
         public Tentacle(Tentacle tentacle)
         {
@@ -39,10 +39,10 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             pattern = tentacle.pattern;
             step = tentacle.step;
         }
-        public void LoadCSV(int id)
+        public void CsvLoad(int id)
         {
-            var data = Utility.ReadCSV("config/enemy.csv");
-            var patternData = Utility.ReadCSV("config/tentcle_pattern.csv");
+            var data = My.CsvControler.ReadCSV("config/enemy.csv");
+            var patternData = My.CsvControler.ReadCSV("config/tentcle_pattern.csv");
 
             speed = float.Parse(data[id.ToString()]["speed"]);
             maxStep = int.Parse(data[id.ToString()]["tentacle_step"]);

@@ -16,6 +16,12 @@
     <None Remove="GameOctopus\DrawClasss\sampleDraw\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="My\XNA\DrawCircle.cs" />
+    <Compile Remove="My\XNA\DrawClass.cs" />
+    <Compile Remove="My\XNA\DrawCurveLine.cs" />
+    <Compile Remove="My\XNA\DrawLine.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <TrimmerRootAssembly Include="Microsoft.Xna.Framework.Content.ContentTypeReader" Visible="false" />
   </ItemGroup>
   <ItemGroup>

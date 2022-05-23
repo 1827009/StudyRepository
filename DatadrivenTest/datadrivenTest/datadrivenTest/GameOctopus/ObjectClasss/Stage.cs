@@ -43,7 +43,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
 
         public Stage(Action initializeEvent)
         {
-            Initialize(int.Parse(Utility.ReadCSV("config\\stage_select.csv")["0"]["stage"]), initializeEvent);
+            Initialize(int.Parse(My.CsvControler.ReadCSV("config\\stage_select.csv")["0"]["stage"]), initializeEvent);
         }
         public Stage(int id, Action initializeEvent)
         {
@@ -55,11 +55,11 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             this.initializeEvent = initializeEvent;
             player = new Player(this);
 
-            LoadCSV(id);
+            CsvLoad(id);
         }
-        public void LoadCSV(int id)
+        public void CsvLoad(int id)
         {
-            var data = Utility.ReadCSV("config/stage.csv");
+            var data = My.CsvControler.ReadCSV("config/stage.csv");
 
             enemy = new List<Octopus>();
             for (int i = 0; i < int.Parse(data[id.ToString()]["size"]); i++)
@@ -75,18 +75,18 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
 
         public void LoadCSVs()
         {
-            if(InputManager.IsJustKeyDown(Keys.S)){
+            if(MyXNA.InputManager.IsJustKeyDown(Keys.S)){
                 this.initializeEvent();
             }
-            if (InputManager.IsJustKeyDown(Keys.P))
+            if (MyXNA.InputManager.IsJustKeyDown(Keys.P))
             {
-                player.LoadCSV();
+                player.CsvUpdate();
             }
-            if (InputManager.IsJustKeyDown(Keys.E))
+            if (MyXNA.InputManager.IsJustKeyDown(Keys.E))
             {
                 foreach (var item in enemy)
                 {
-                    item.LoadCSV();
+                    item.CsvUpdate();
                 }
             }
         }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
-namespace datadrivenTest.GameOctopus
+namespace My
 {
-    class Utility
+    class CsvControler
     {
         /// <summary>
         /// svcファイル読み出し。アクセスはすべて文字列
@@ -53,5 +53,6 @@ namespace datadrivenTest.GameOctopus
 
             return null;
         }
+
     }
 }
