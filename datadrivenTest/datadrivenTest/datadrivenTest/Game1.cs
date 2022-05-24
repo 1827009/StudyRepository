@@ -14,8 +14,8 @@ namespace datadrivenTest
         private SpriteBatch _spriteBatch;
         private BasicEffect effect;
 
-        public static readonly int WINDOW_SIZE_X = 612;
-        public static readonly int WINDOW_SIZE_Y = 199;
+        public static int WINDOW_SIZE_X = 306;
+        public static int WINDOW_SIZE_Y = 199;
 
         public static float gameTime;
 
@@ -29,6 +29,14 @@ namespace datadrivenTest
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
+            var stageSizeData = My.CsvControler.ReadCSV("config/stage.csv");
+            WINDOW_SIZE_X = 0;
+            foreach (var item in stageSizeData)
+            {
+                if (WINDOW_SIZE_X < int.Parse(item.Value["size"]))
+                    WINDOW_SIZE_X = int.Parse(item.Value["size"]);
+            }
+            WINDOW_SIZE_X *= 306;
             _graphics.PreferredBackBufferWidth = WINDOW_SIZE_X;
             _graphics.PreferredBackBufferHeight = WINDOW_SIZE_Y;
 

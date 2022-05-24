@@ -29,6 +29,10 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
         }
         // ラストステージのid
         int maxId = 0;
+        public int MaxId
+        {
+            get { return maxId; }
+        }
 
         public int clearPoint = 0;
         public int gohomePoint;// 帰還時の得点

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace datadrivenTest.GameOctopus.ObjectClasss
 {
-    class Tentacle:UpdateObject
+    class Tentacle:IUpdateObject
     {
         public int position;
 
@@ -58,7 +58,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             }
         }
 
-        public override void Update(GameTime time)
+        public void Update(GameTime time)
         {
             Move(time);
         }

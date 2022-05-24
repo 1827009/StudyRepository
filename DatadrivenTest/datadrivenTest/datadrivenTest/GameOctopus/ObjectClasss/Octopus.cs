@@ -5,7 +5,7 @@ using System.Text;
 
 namespace datadrivenTest.GameOctopus.ObjectClasss
 {
-    class Octopus : UpdateObject
+    class Octopus : IUpdateObject
     {
         // 触手の数。描画問題などにより5で固定
         public static readonly int TENTACLE_COUNT = 5;
@@ -50,10 +50,8 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
 
         bool spritSwitch = false;
         bool switchStop = false;
-        public override void Update(GameTime time)
+        public void Update(GameTime time)
         {
-            base.Update(time);
-
             // 攻撃状態を戻す。攻撃状態中は更新が行われないため、更新時に戻している
             if (ready == EnemyReady.Attack)
             {

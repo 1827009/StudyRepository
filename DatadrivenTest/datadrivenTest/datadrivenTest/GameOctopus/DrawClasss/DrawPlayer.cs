@@ -68,9 +68,7 @@ namespace datadrivenTest.GameOctopus.DrawClasss
                     break;
 
                 case Ready.Normal:
-                    int texNo = player.Position % 6;                    
-                    if (player.Position > 5 && texNo < 3)
-                        texNo += 3;
+                    int texNo = ((player.Position - 1) % 5) + 1;
                     playerTextures[texNo].Draw(spriteBatch);
                     break;
             }
@@ -79,7 +77,11 @@ namespace datadrivenTest.GameOctopus.DrawClasss
         void PositionSet()
         {
             Vector2 result=Vector2.Zero;
-            switch (player.Position)
+
+            int motion = (player.Position - 1) % 5;
+            int page = (int)((player.Position - 1) * 0.2f);
+
+            switch (motion + 1)
             {
                 case 0:
                     result = new Vector2(32, 5);
@@ -104,27 +106,9 @@ namespace datadrivenTest.GameOctopus.DrawClasss
                 case 5:
                     result = new Vector2(192, 130);
                     break;
-
-                case 6:
-                    result = new Vector2(331, 55);
-                    break;
-
-                case 7:
-                    result = new Vector2(331, 110);
-                    break;
-
-                case 8:
-                    result = new Vector2(391, 130);
-                    break;
-
-                case 9:
-                    result = new Vector2(446, 130);
-                    break;
-
-                case 10:
-                    result = new Vector2(496, 130);
-                    break;
             }
+            result += new Vector2(304, 0) * page;
+
             LocalMatrix = My.Matrix4x4.CreateTrancerate(MyXNA.ChangeXNA.Change(result).xy0);
         }
     }

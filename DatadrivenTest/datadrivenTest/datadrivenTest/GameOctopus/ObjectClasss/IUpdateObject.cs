@@ -8,13 +8,8 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
     /// <summary>
     /// エンティティの基礎クラス
     /// </summary>
-    class UpdateObject
+    interface IUpdateObject
     {
-        public UpdateObject()
-        {
-
-        }
-
-        public virtual void Update(GameTime time) { }
+        public void Update(GameTime time) { }
     }
 }

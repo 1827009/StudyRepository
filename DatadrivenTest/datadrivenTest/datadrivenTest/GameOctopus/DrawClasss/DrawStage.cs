@@ -17,7 +17,8 @@ namespace datadrivenTest.GameOctopus.DrawClasss
         DrawTexture stockTextures;
         List<DrawOctopus> drawOctopus=new List<DrawOctopus>();
 
-        DrawText text;
+        DrawText pointText;
+        DrawText stageText;
 
         public DrawStage(ContentManager content, Stage stage)
         {
@@ -32,7 +33,8 @@ namespace datadrivenTest.GameOctopus.DrawClasss
 
             LoadStageTextuer(content);
 
-            text = new DrawText(content, this, new Vector3(350f, 10f,0));
+            pointText = new DrawText(content, this, new Vector3(150f, 23f,0));
+            stageText = new DrawText(content, this, new Vector3(150f, 10f, 0));
         }
 
         public void LoadStageTextuer(ContentManager content)
@@ -48,7 +50,8 @@ namespace datadrivenTest.GameOctopus.DrawClasss
             {
                 buckGround[i].LocalMatrix = My.Vector3.CreateTrancerate(new My.Vector3(buckGround[0].texture.Width * i, 0, 0));
             }
-            LocalMatrix = My.Matrix4x4.CreateTrancerate(new My.Vector3((Game1.WINDOW_SIZE_X * 0.5f) - (buckGround[0].texture.Width * 0.5f * buckGround.Count), 0, 0));
+            float texpos = (Game1.WINDOW_SIZE_X * 0.5f) - (buckGround[0].texture.Width * 0.5f * buckGround.Count);
+            LocalMatrix = My.Matrix4x4.CreateTrancerate(new My.Vector3(texpos, 0, 0));
 
             stockTextures = new DrawTexture("Images/stock", this, new Vector3(230f, 100f, 0), content);
         }
@@ -73,9 +76,10 @@ namespace datadrivenTest.GameOctopus.DrawClasss
             drawPlayer.Draw(time, spriteBatch);
 
             if (stage.GameClear)
-                text.Draw(spriteBatch, "GAME CLEAR");
+                pointText.Draw(spriteBatch, "GAME CLEAR");
             else
-                text.Draw(spriteBatch, stage.player.TotalPoint.ToString() + "/" + stage.clearPoint);
+                pointText.Draw(spriteBatch, stage.player.TotalPoint.ToString() + "/" + stage.clearPoint);
+            stageText.Draw(spriteBatch, "Stage " + (stage.Id+1 != stage.MaxId ? (stage.Id + 1).ToString() : "final"));
         }
     }
 }

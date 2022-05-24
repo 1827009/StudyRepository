@@ -25,12 +25,10 @@ namespace datadrivenTest.GameOctopus.DrawClasss
             this.content = content;
 
             font = content.Load<SpriteFont>("Fonts/TestFont");
-
-            position = pos;
         }
         public void Draw(SpriteBatch spriteBatch, string text)
         {
-            spriteBatch.DrawString(font, text, new Vector2(position.X, position.Y), Color.Black);
+            spriteBatch.DrawString(font, text, MyXNA.ChangeXNA.Change(Matrix.Translation.xy), Color.Black);
         }
     }
 }

@@ -8,7 +8,7 @@ using datadrivenTest.GameOctopus.DrawClasss;
 
 namespace datadrivenTest.GameOctopus.ObjectClasss
 {
-    class Player:UpdateObject
+    class Player:IUpdateObject
     {
         const float DAMEGE_WEIT = 2f;
         public const float HOUSE_ITEM_TIME = 2f;
@@ -47,7 +47,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             System.Diagnostics.Debug.WriteLine("playerのパラメータを更新しました");
         }
 
-        public override void Update(GameTime time)
+        public void Update(GameTime time)
         {
             Control(time);
         }
