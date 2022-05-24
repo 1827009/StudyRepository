@@ -32,14 +32,12 @@ namespace datadrivenTest.GameOctopus.DrawClasss
             playerTextures.Add(new DrawTexture("Images/player1_1", this, Vector3.Zero, content));
             playerTextures.Add(new DrawTexture("Images/player1_2", this, Vector3.Zero, content));
 
-
+            this.UpdateEvent += PositionSet;
         }
 
 
         public void Draw(GameTime time, SpriteBatch spriteBatch)
         {
-            PositionSet();
-
             switch (player.ready)
             {
                 case Ready.Damage:

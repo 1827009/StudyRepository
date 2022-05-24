@@ -50,10 +50,10 @@ namespace My
 
             if (dirtyFlag)
             {
+                UpdateEvent?.Invoke();
+
                 matrix = parent.matrix * localMatrix;
                 dirtyFlag = false;
-
-                UpdateEvent?.Invoke();
             }
 
             // 子の更新
