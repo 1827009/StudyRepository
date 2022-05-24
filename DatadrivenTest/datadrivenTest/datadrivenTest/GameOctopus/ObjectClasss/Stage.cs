@@ -13,6 +13,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
         // ステージ1ページの大きさ
         public const int STAGE_SIZE = 5;
 
+        // ステージをリセットするためのイベント
         Action initializeEvent;
 
         public int size;
@@ -26,8 +27,12 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
         {
             get { return stageId; }
         }
+        // ラストステージのid
         int maxId = 0;
+
         public int clearPoint = 0;
+        public int gohomePoint;// 帰還時の得点
+
         bool gameover = false;
         public bool Gameover
         {
@@ -50,7 +55,6 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
                     clearWeitTime = CLEAR_WEIT_TIME;
             }
         }
-
         float clearWeitTime = 0;
 
         public Stage(Action initializeEvent)
@@ -83,7 +87,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             size = int.Parse(data[id.ToString()]["size"]) * STAGE_SIZE + 1;
             clearPoint = int.Parse(data[id.ToString()]["clear_point"]);
             maxId = data.Count;
-            player.gohomePoint = int.Parse(data[id.ToString()]["gohome_point"]);
+            gohomePoint = int.Parse(data[id.ToString()]["gohome_point"]);
             stageId = id > maxId ? maxId - 1 : id;
             System.Diagnostics.Debug.WriteLine("stageのパラメータを更新しました");
         }
@@ -140,7 +144,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
                 Gameover = true;
             }
 
-            if (player.totalItems >= clearPoint) {
+            if (player.TotalPoint >= clearPoint) {
                 GameClear = true;
             }
 
@@ -155,11 +159,11 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             {
                 foreach (var item in item2.tentacles)
                 {
-                    if (item.position == player.position && item.OnAttack)
+                    if (item.position == player.Position && item.OnAttack)
                     {
                         System.Diagnostics.Debug.WriteLine("ヒット");
                         player.Injured();
-                        item2.EatingMode(player);
+                        item2.OnEatingMode(player);
 
                         if (player.stock < 0)
                             return true;

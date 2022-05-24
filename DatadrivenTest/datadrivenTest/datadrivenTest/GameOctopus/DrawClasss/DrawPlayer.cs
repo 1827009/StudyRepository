@@ -58,7 +58,7 @@ namespace datadrivenTest.GameOctopus.DrawClasss
 
                 case Ready.House:
                     animationTime += (float)time.ElapsedGameTime.TotalSeconds;
-                    float houseAnimFrame = player.houseItemRespons / 6;
+                    float houseAnimFrame = Player.HOUSE_ITEM_TIME / 6;
                     animationTime %= houseAnimFrame * 2;
                     if (animationTime > houseAnimFrame)
                         playerTextures[6].Draw(spriteBatch);
@@ -68,8 +68,8 @@ namespace datadrivenTest.GameOctopus.DrawClasss
                     break;
 
                 case Ready.Normal:
-                    int texNo = player.position % 6;                    
-                    if (player.position > 5 && texNo < 3)
+                    int texNo = player.Position % 6;                    
+                    if (player.Position > 5 && texNo < 3)
                         texNo += 3;
                     playerTextures[texNo].Draw(spriteBatch);
                     break;
@@ -79,7 +79,7 @@ namespace datadrivenTest.GameOctopus.DrawClasss
         void PositionSet()
         {
             Vector2 result=Vector2.Zero;
-            switch (player.position)
+            switch (player.Position)
             {
                 case 0:
                     result = new Vector2(32, 5);

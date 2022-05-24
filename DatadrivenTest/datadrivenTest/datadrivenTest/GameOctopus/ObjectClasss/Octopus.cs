@@ -7,7 +7,10 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
 {
     class Octopus : UpdateObject
     {
+        // 触手の数。描画問題などにより5で固定
         public static readonly int TENTACLE_COUNT = 5;
+
+        // 状態
         public EnemyReady ready = EnemyReady.Normal;
 
         public List<Tentacle> tentacles = new List<Tentacle>();
@@ -30,6 +33,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             tentacles[3].maxStep = 4;
             tentacles[4].maxStep = 3;
 
+            // ファイルが更新されると反映されるように
             My.FileDataUpdater.Instance.AddUpdateAction("enemy.csv", CsvUpdate);
             My.FileDataUpdater.Instance.AddUpdateAction("tentacle.csv", CsvUpdate);
             My.FileDataUpdater.Instance.AddUpdateAction("tentacle_pattern.csv", CsvUpdate);
@@ -50,6 +54,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
         {
             base.Update(time);
 
+            // 攻撃状態を戻す。攻撃状態中は更新が行われないため、更新時に戻している
             if (ready == EnemyReady.Attack)
             {
                 ready = EnemyReady.Normal;
@@ -61,6 +66,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
 
                 tentacles[i].Update(time);
             }
+            // 根元が一緒でどちらかにしか行かない触手のための強引な処理
             if (!switchStop && ((tentacles[0].Step == 0 && !spritSwitch) || (tentacles[1].Step == 0 && spritSwitch)))
             {
                 spritSwitch = !spritSwitch;
@@ -72,7 +78,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             }
         }
 
-        public void EatingMode(Player player)
+        public void OnEatingMode(Player player)
         {
             ready = EnemyReady.Attack;
             tentacles[2].Step = 2;
@@ -81,6 +87,9 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
 
         }
     }
+    /// <summary>
+    /// タコの状態
+    /// </summary>
     enum EnemyReady
     {
         Normal,

@@ -1,0 +1,46 @@
+←→、ad		：左右移動
+右端で→		：得点取得
+得点1以上取得後船に帰還	：得点追加取得
+
+p			：残機全回復
+s			：そのステージを最初から
+
+Game and watchのoctopusのようなゲームです。
+左下にある宝箱などから得点を所得して特定点数に到達することが目標
+得点確保後に船に戻ると追加で得点確保
+タコの足にぶつかると残機が減り、０になるとゲームオーバー
+
+全5ステージ
+
+
+各config
+configファイル内のcsvファイルの内容を変更すると各値を変更できます。
+
+player
+	move_respons：１マス移動ごとのクールタイム
+	stock：ステージ開始時の残機
+	get_item_respons：得点の獲得速度
+
+enemy
+	id：敵の種類
+	tentacle0~：tentacles.csvからidを選択、左から順に固定で５本の触手が配置される
+
+tentacles
+	id：触手の種類
+	speed：伸縮速度
+	tentacle_pattern：tentacle_pattern.csvからidで動きのパターンを選択
+
+tentacle_pattern.csv
+	id：パターンの種類
+	0~：数値段階触手が伸縮する。その触手の限界値になると符号が反転されて計算される。
+		触手ごとの長さはその位置ごとに固定されてる。
+		また、ここに限り空の値が入っていてもエラーが起きない
+	
+stage
+	id：ステージの種類。クリアすると進行する
+	size：横に5マス広がる。画面サイズなどの問題で1~2を推奨
+	gohome_point：船に帰った時の得点
+	enemy0~：enemy.csvからidを選択。サイズの値だけ配置可能
+
+stage_select
+	stage：ゲーム開始時のステージをstage.csvからidを選択

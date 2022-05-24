@@ -75,7 +75,7 @@ namespace datadrivenTest.GameOctopus.DrawClasss
             if (stage.GameClear)
                 text.Draw(spriteBatch, "GAME CLEAR");
             else
-                text.Draw(spriteBatch, stage.player.totalItems.ToString() + "/" + stage.clearPoint);
+                text.Draw(spriteBatch, stage.player.TotalPoint.ToString() + "/" + stage.clearPoint);
         }
     }
 }
