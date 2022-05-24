@@ -58,8 +58,6 @@ namespace datadrivenTest.GameOctopus.DrawClasss
 
         public void Draw(GameTime time, SpriteBatch spriteBatch)
         {
-            Update(new My.BoneMatrix(),true);
-
 
             foreach (var item in buckGround)
             {
@@ -80,6 +78,7 @@ namespace datadrivenTest.GameOctopus.DrawClasss
             else
                 pointText.Draw(spriteBatch, stage.player.TotalPoint.ToString() + "/" + stage.clearPoint);
             stageText.Draw(spriteBatch, "Stage " + (stage.Id+1 != stage.MaxId ? (stage.Id + 1).ToString() : "final"));
+
         }
     }
 }

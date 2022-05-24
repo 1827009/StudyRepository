@@ -16,8 +16,6 @@ namespace datadrivenTest.GameOctopus.DrawClasss
 
         SpriteFont font;
 
-        Vector3 position;
-
         public DrawText(ContentManager content, My.BoneMatrix parent, Vector3 pos):base(parent)
         {
             LocalMatrix = My.Matrix4x4.CreateTrancerate(MyXNA.ChangeXNA.Change(pos));

@@ -38,6 +38,7 @@ namespace datadrivenTest.GameOctopus.DrawClasss
 
         public void Draw(GameTime time, SpriteBatch spriteBatch)
         {
+            PositionSet();
 
             switch (player.ready)
             {
@@ -72,7 +73,6 @@ namespace datadrivenTest.GameOctopus.DrawClasss
                     playerTextures[texNo].Draw(spriteBatch);
                     break;
             }
-            PositionSet();
         }
         void PositionSet()
         {

@@ -77,12 +77,13 @@ namespace datadrivenTest
 
             // TODO: Add your update logic here7
             MyXNA.InputManager.Update();
+            drawGame.Update(new My.BoneMatrix(), true);
 
             stage.Update(gameTime);
             if (stage.Gameover)
                 Exit();
 
-            
+
             base.Update(gameTime);
         }
 
