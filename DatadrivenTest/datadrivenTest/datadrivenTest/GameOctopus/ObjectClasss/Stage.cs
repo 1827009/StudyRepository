@@ -28,7 +28,20 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
         }
         int maxId = 0;
         public int clearPoint = 0;
-        public bool gameover = false;
+        bool gameover = false;
+        public bool Gameover
+        {
+            get {
+                if (clearWeitTime <= 0)
+                    return gameover;
+                return false;
+            }
+            set
+            {
+                gameover = value;
+                clearWeitTime = CLEAR_WEIT_TIME;
+            }
+        }
         bool gameClear = false;
         public bool GameClear {
             get { return gameClear; }
@@ -70,6 +83,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             size = int.Parse(data[id.ToString()]["size"]) * STAGE_SIZE + 1;
             clearPoint = int.Parse(data[id.ToString()]["clear_point"]);
             maxId = data.Count;
+            player.gohomePoint = int.Parse(data[id.ToString()]["gohome_point"]);
             stageId = id > maxId ? maxId - 1 : id;
             System.Diagnostics.Debug.WriteLine("stageのパラメータを更新しました");
         }
@@ -77,7 +91,8 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
         public void LoadCSVs()
         {
             if(MyXNA.InputManager.IsJustKeyDown(Keys.S)){
-                this.initializeEvent();
+                GameClear = true;
+                stageId--;
             }
             if (MyXNA.InputManager.IsJustKeyDown(Keys.P))
             {
@@ -94,17 +109,20 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
 
         public void Update(GameTime time)
         {
-            if (gameover) return;
+            if (gameover){
+                clearWeitTime -= (float)time.ElapsedGameTime.TotalSeconds;
+                return;                
+            }
             LoadCSVs();
 
             if (GameClear)
             {
                 if (clearWeitTime > 0)
-                    clearWeitTime -= Game1.gameTime;
+                    clearWeitTime -= (float)time.ElapsedGameTime.TotalSeconds;
                 else if (stageId + 1 != maxId)
                     initializeEvent();
                 else
-                    gameover = true;
+                    Gameover = true;
                 return;
             }
 
@@ -119,10 +137,10 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
 
             if (HitCheck())
             {
-                gameover = true;
+                Gameover = true;
             }
 
-            if (player.totalItems > clearPoint) {
+            if (player.totalItems >= clearPoint) {
                 GameClear = true;
             }
 

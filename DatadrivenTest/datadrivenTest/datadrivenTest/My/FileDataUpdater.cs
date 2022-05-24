@@ -61,8 +61,11 @@ namespace My
         private void watcher_Changed(System.Object source,
             FileSystemEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine(e.Name + " が自動更新されました。");
-            updateAction[e.Name]?.Invoke();
+            if (updateAction.ContainsKey(e.Name))
+            {
+                System.Diagnostics.Debug.WriteLine(e.Name + " が自動更新されました。");
+                updateAction[e.Name]?.Invoke();
+            }
         }
 
 

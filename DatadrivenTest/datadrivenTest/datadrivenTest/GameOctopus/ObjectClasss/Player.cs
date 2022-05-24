@@ -26,6 +26,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
         public float moveResponse;
         public float getItemRespons;
         public float houseItemRespons;
+        public int gohomePoint;
 
         public Player(Stage stage)
         {
@@ -84,7 +85,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
                 if (getItem)
                 {
                     ready = Ready.House;
-                    totalItems += 3;
+                    totalItems += gohomePoint;
                     getItem = false;
                     houseItemWeit = houseItemRespons;
                     return;

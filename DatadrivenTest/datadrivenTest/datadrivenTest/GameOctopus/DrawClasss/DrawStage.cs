@@ -28,9 +28,11 @@ namespace datadrivenTest.GameOctopus.DrawClasss
             {
                 drawOctopus.Add(new DrawOctopus(content, stage.enemy[i], new Vector3(120 + (i * 304), 40, 0), this));
             }
+
+
             LoadStageTextuer(content);
 
-            text = new DrawText(content, new Vector2(200f, 10f));
+            text = new DrawText(content, this, new Vector3(350f, 10f,0));
         }
 
         public void LoadStageTextuer(ContentManager content)
@@ -73,7 +75,7 @@ namespace datadrivenTest.GameOctopus.DrawClasss
             if (stage.GameClear)
                 text.Draw(spriteBatch, "GAME CLEAR");
             else
-                text.Draw(spriteBatch, stage.player.totalItems.ToString());
+                text.Draw(spriteBatch, stage.player.totalItems.ToString() + "/" + stage.clearPoint);
         }
     }
 }

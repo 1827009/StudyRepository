@@ -17,14 +17,23 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
         List<int> pattern;
 
         int step = 0;
+        bool returnMode = false;
         public virtual int Step
         {
             get { return step; }
             set
             {
                 step = value;
-                if (step < 0) step = 0;
-                if (step > maxStep) step = maxStep;
+                if (step <= 0)
+                {
+                    returnMode = false;
+                    step = 0;
+                }
+                if (step >= maxStep) 
+                {
+                    returnMode = true;
+                    step = maxStep;
+                }
             }
         }
 
@@ -32,17 +41,9 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
         {
             position = pos;
             this.id = id;
-            CsvLoad();
+            CsvLoad(id);
         }
-        public Tentacle(Tentacle tentacle)
-        {
-            position = tentacle.position;
-            speed = tentacle.speed;
-            maxStep = tentacle.maxStep;
-            pattern = tentacle.pattern;
-            step = tentacle.step;
-        }
-        public void CsvLoad()
+        public void CsvLoad(int id)
         {
             var data = My.CsvControler.ReadCSV("config/tentacles.csv");
             var patternData = My.CsvControler.ReadCSV("config/tentacle_pattern.csv");
@@ -52,7 +53,8 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
             pattern = new List<int>();
             foreach (var i in patternData[data[id.ToString()]["tentacle_pattern"]])
             {
-                pattern.Add(int.Parse(i.Value));
+                if (i.Value != "")
+                    pattern.Add(int.Parse(i.Value));
             }
         }
 
@@ -70,7 +72,7 @@ namespace datadrivenTest.GameOctopus.ObjectClasss
                 return;
             }
             moveCoolTime = speed;
-            Step += pattern[patternIndex];
+            Step += returnMode ? -pattern[patternIndex] : pattern[patternIndex];
             patternIndex = (patternIndex + 1) % pattern.Count;
         }
 

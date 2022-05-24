@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace datadrivenTest.GameOctopus.DrawClasss
 {
-    class DrawText
+    class DrawText:My.BoneMatrix
     {
         public const float FONT_SIZE = 12f;
 
@@ -16,10 +16,12 @@ namespace datadrivenTest.GameOctopus.DrawClasss
 
         SpriteFont font;
 
-        Vector2 position;
+        Vector3 position;
 
-        public DrawText(ContentManager content, Vector2 pos)
+        public DrawText(ContentManager content, My.BoneMatrix parent, Vector3 pos):base(parent)
         {
+            LocalMatrix = My.Matrix4x4.CreateTrancerate(MyXNA.ChangeXNA.Change(pos));
+
             this.content = content;
 
             font = content.Load<SpriteFont>("Fonts/TestFont");
@@ -28,7 +30,7 @@ namespace datadrivenTest.GameOctopus.DrawClasss
         }
         public void Draw(SpriteBatch spriteBatch, string text)
         {
-            spriteBatch.DrawString(font, text, position, Color.Black);
+            spriteBatch.DrawString(font, text, new Vector2(position.X, position.Y), Color.Black);
         }
     }
 }

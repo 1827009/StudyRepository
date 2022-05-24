@@ -71,7 +71,7 @@ namespace datadrivenTest
             MyXNA.InputManager.Update();
 
             stage.Update(gameTime);
-            if (stage.gameover == true)
+            if (stage.Gameover)
                 Exit();
 
             

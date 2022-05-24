@@ -1,6 +1,7 @@
 *.pdf
 *.dll
 *.exe
+*.zip
 /bin/
 /obj/
 *Content/
