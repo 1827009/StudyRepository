@@ -6,56 +6,40 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MyXNA
 {
-    class DrawBox
+    class DrawBox:My.BoneMatrix, IDrawModel
     {
-        Matrix[] vertexMatrix;
-        public My.BoneMatrix matrix;
+        DrawSquare[] squares = new DrawSquare[6];
 
-        VertexPositionColor[] vertices;
-
-        public DrawBox(My.BoneMatrix transform, Color color, Vector3 size)
+        public DrawBox(My.BoneMatrix parent, float size):base(parent)
         {
-            matrix = transform;
-            matrix.UpdateEvent += Update;
-
-            vertexMatrix = new Matrix[6];
-            for (int i = 0; i < 6; i++)
-                vertexMatrix[i] = Matrix.Identity;
-            vertexMatrix[0].Translation = new Vector3(-0.1f * size.X, 0.1f * size.Y, 0);
-            vertexMatrix[1].Translation = new Vector3(0.1f * size.X, 0.1f * size.Y, 0);
-            vertexMatrix[2].Translation = new Vector3(0.1f * size.X, -0.1f * size.Y, 0);
-
-            vertexMatrix[3].Translation = new Vector3(0.1f * size.X, -0.1f * size.Y, 0);
-            vertexMatrix[4].Translation = new Vector3(-0.1f * size.X, -0.1f * size.Y, 0);
-            vertexMatrix[5].Translation = new Vector3(-0.1f * size.X, 0.1f * size.Y, 0);
-
-            vertices = new VertexPositionColor[6];
-            for (int i = 0; i < 6; i++)
-                vertices[i] = new VertexPositionColor(Vector3.Zero, color);
-        }
-        void Update()
-        {
-            for (int i = 0; i < vertices.Length; i++)
+            for (int i = 0; i < squares.Length; i++)
             {
-                Vector3 vec = (ChangeXNA.Change(matrix.Matrix) * vertexMatrix[i]).Translation;                
-                vertices[i].Position = vec;
+                squares[i] = new DrawSquare(this, My.Matrix4x4.Identity, Color.White, Vector3.One);
+            }
+            float halfsize = size * 0.5f;
+            squares[0].LocalTransform *= My.Matrix4x4.CreateTrancerate(new My.Vector3(halfsize, 0, 0)) * My.Matrix4x4.CreateRotationY(MathHelper.ToRadians(90));
+            squares[1].LocalTransform *= My.Matrix4x4.CreateTrancerate(new My.Vector3(-halfsize, 0, 0)) * My.Matrix4x4.CreateRotationY(MathHelper.ToRadians(-90));
+
+            squares[2].LocalTransform *= My.Matrix4x4.CreateTrancerate(new My.Vector3(0, halfsize, 0)) * My.Matrix4x4.CreateRotationX(MathHelper.ToRadians(90));
+            squares[3].LocalTransform *= My.Matrix4x4.CreateTrancerate(new My.Vector3(0, -halfsize, 0)) * My.Matrix4x4.CreateRotationX(MathHelper.ToRadians(-90));
+
+            squares[4].LocalTransform *= My.Matrix4x4.CreateTrancerate(new My.Vector3(0, 0, halfsize)) * My.Matrix4x4.CreateRotationX(MathHelper.ToRadians(180));
+            squares[5].LocalTransform *= My.Matrix4x4.CreateTrancerate(new My.Vector3(0, 0, -halfsize));
+        }
+
+        public void Draw(GraphicsDevice graphics, GameTime time)
+        {
+            foreach (var item in squares)
+            {
+                item.Draw(graphics, time);
             }
         }
-        public void Draw(GraphicsDevice graphics)
-        {
-            graphics.DrawUserPrimitives<VertexPositionColor>(
-                PrimitiveType.TriangleList,
-                vertices,
-                0,
-                2
-                );
-        }
 
-        public void ChengeColor(Color color)
+        public void ChengeColor(params Color[] colors)
         {
-            for (int i = 0; i < vertices.Length; i++)
+            foreach (var item in squares)
             {
-                vertices[i].Color = color;
+                item.ChengeColor(colors);
             }
         }
     }

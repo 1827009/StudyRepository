@@ -10,9 +10,12 @@ namespace CalculationTest
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        BasicEffect effect;
         public static readonly int WINDOW_SIZE_X=900;
         public static readonly int WINDOW_SIZE_Y=900;
+        BasicEffect effect;
+
+        My.BoneMatrix rootWorld = new My.BoneMatrix();
+        Camera camera;
 
         SampleGame game;
 
@@ -23,6 +26,9 @@ namespace CalculationTest
             IsMouseVisible = true;
             _graphics.PreferredBackBufferWidth = WINDOW_SIZE_X;
             _graphics.PreferredBackBufferHeight = WINDOW_SIZE_Y;
+
+            camera = new Camera(rootWorld);
+            camera.Position = new My.Vector3(0, 1, 2);
         }
 
         protected override void Initialize()
@@ -30,7 +36,7 @@ namespace CalculationTest
             // TODO: Add your initialization logic here
             InputManager.Initialize();
 
-            game = new SampleGame3();
+            game = new SampleGame6CameraView(camera, rootWorld);
 
             base.Initialize();
         }
@@ -51,8 +57,10 @@ namespace CalculationTest
 
             // TODO: Add your update logic here
             InputManager.Update();
+            TimeManager.Update(gameTime);
+            rootWorld.Update(rootWorld, false);
 
-            if (InputManager.IsKeyDown(Keys.Space))
+            //if (InputManager.IsKeyDown(Keys.Space))
                 game.Update(gameTime);
 
             base.Update(gameTime);
@@ -63,10 +71,13 @@ namespace CalculationTest
             GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
+            effect.View = camera.View;
+            effect.Projection = camera.Projection;
+            effect.World = MyXNA.ChangeXNA.Change(rootWorld.Transform);
             foreach (var pass in effect.CurrentTechnique.Passes)
             {
                 pass.Apply();
-
+                game.Draw(GraphicsDevice, gameTime);
             }
 
             _spriteBatch.Begin();

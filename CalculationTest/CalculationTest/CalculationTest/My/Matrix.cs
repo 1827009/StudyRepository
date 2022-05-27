@@ -179,12 +179,6 @@ namespace My
         public float M43;
         public float M44;
 
-        public static readonly Matrix4x4 Identity = new Matrix4x4(
-                1, 0, 0, 0,
-                0, 1, 0, 0,
-                0, 0, 1, 0,
-                0, 0, 0, 1);
-
         public Matrix4x4(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31, float m32, float m33, float m34, float m41, float m42, float m43, float m44)
         {
             M11 = m11;
@@ -212,17 +206,49 @@ namespace My
                                 "[" + this.M41 + ",\t" + this.M42 + ",\t" + this.M43 + ", " + this.M44 + "]\r\n";
         }
 
+        /// <summary>
+        /// 平行移動値
+        /// </summary>
         public Vector3 Translation
         {
-            get { return new Vector3(this.M31, this.M32, this.M33); }
+            get { return new Vector3(this.M41, this.M42, this.M43); }
             set
             {
-                M31 = value.x;
-                M32 = value.y;
-                M33 = value.z;
+                M41 = value.x;
+                M42 = value.y;
+                M43 = value.z;
+            }
+        }
+        /// <summary>
+        /// 転置行列
+        /// </summary>
+        public Matrix4x4 Transpose
+        {
+            get
+            {
+                return new Matrix4x4(
+                    M11, M21, M31, M41,
+                    M12, M22, M32, M42,
+                    M13, M23, M33, M43,
+                    M14, M24, M34, M44
+                    );
             }
         }
 
+        /// <summary>
+        /// 単位行列
+        /// </summary>
+        public static readonly Matrix4x4 Identity = new Matrix4x4(
+                1, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1);
+        /// <summary>
+        /// 内積
+        /// </summary>
+        /// <param name="matrix1"></param>
+        /// <param name="matrix2"></param>
+        /// <returns></returns>
         public static Matrix4x4 operator *(Matrix4x4 matrix1, Matrix4x4 matrix2)
         {
             Matrix4x4 output;
@@ -249,7 +275,12 @@ namespace My
 
             return output;
         }
-
+        /// <summary>
+        /// 内積
+        /// </summary>
+        /// <param name="vector"></param>
+        /// <param name="conversion"></param>
+        /// <returns></returns>
         public static Vector3 operator *(Vector3 vector, Matrix4x4 conversion)
         {
             Vector3 output;
@@ -260,15 +291,50 @@ namespace My
 
             return output;
         }
-
-        public static Matrix4x4 CreateRotation(float rag)
+        /// <summary>
+        /// X軸回転行列作成
+        /// </summary>
+        /// <param name="rag"></param>
+        /// <returns></returns>
+        public static Matrix4x4 CreateRotationX(float rag)
         {
             return new Matrix4x4(
-                (float)Math.Cos(rag), (float)-Math.Sin(rag), 0, 0,
-                (float)Math.Sin(rag), (float)Math.Cos(rag), 0, 0,
+                1, 0, 0, 0,
+                0, MathF.Cos(rag), -MathF.Sin(rag), 0,
+                0, MathF.Sin(rag), MathF.Cos(rag),  0,
+                0, 0, 0, 1);
+        }
+        /// <summary>
+        /// Y軸回転行列作成
+        /// </summary>
+        /// <param name="rag"></param>
+        /// <returns></returns>
+        public static Matrix4x4 CreateRotationY(float rag)
+        {
+            return new Matrix4x4(
+                MathF.Cos(rag), 0, MathF.Sin(rag), 0,
+                0, 1, 0, 0,
+                -MathF.Sin(rag), 0, MathF.Cos(rag), 0,
+                0, 0, 0, 1);
+        }
+        /// <summary>
+        /// Z軸回転行列作成
+        /// </summary>
+        /// <param name="rag"></param>
+        /// <returns></returns>
+        public static Matrix4x4 CreateRotationZ(float rag)
+        {
+            return new Matrix4x4(
+                MathF.Cos(rag), -MathF.Sin(rag), 0, 0,
+                MathF.Sin(rag), MathF.Cos(rag), 0, 0,
                 0, 0, 1, 0,
                 0, 0, 0, 1);
         }
+        /// <summary>
+        /// 平行移動行列作成
+        /// </summary>
+        /// <param name="vec"></param>
+        /// <returns></returns>
         public static Matrix4x4 CreateTrancerate(Vector3 vec)
         {
             return new Matrix4x4(
@@ -276,6 +342,53 @@ namespace My
                 0, 1, 0, 0,
                 0, 0, 1, 0,
                 vec.x, vec.y, vec.z, 1);
+        }
+        /// <summary>
+        /// 射影変換行列作成
+        /// </summary>
+        /// <param name="fieldOfView"></param>
+        /// <param name="aspect"></param>
+        /// <param name="nearPlaneDistance"></param>
+        /// <param name="farPlaneDistance"></param>
+        /// <returns></returns>
+        public static Matrix4x4 CreatePerspectiveFieldOfView(float fieldOfView, float aspect, float nearPlaneDistance, float farPlaneDistance)
+        {
+            if (fieldOfView <= 0 || fieldOfView >= MathF.PI)
+                throw new Exception("fieldOfView <= 0 or >= PI");
+            if (nearPlaneDistance <= 0f)
+                throw new ArgumentException("nearPlaneDistance <= 0");
+            if (farPlaneDistance <= 0f)
+                throw new ArgumentException("farPlaneDistance <= 0");
+            if (nearPlaneDistance >= farPlaneDistance)
+                throw new ArgumentException("nearPlaneDistance >= farPlaneDistance");
+
+            Matrix4x4 result;
+
+            float num = 1f / ((float)MathF.Tan(fieldOfView * 0.5f));
+            float num2 = num / aspect;
+            float num3 = farPlaneDistance / (nearPlaneDistance - farPlaneDistance);
+            float num4 = (nearPlaneDistance * farPlaneDistance) / (nearPlaneDistance - farPlaneDistance);
+            result = new Matrix4x4(
+                num2, 0, 0, 0,
+                0, num, 0, 0,
+                0, 0, num3, -1,
+                0, 0, num4, 0
+                );
+
+            return result;
+        }
+        public static Matrix4x4 ViewMatrix(Vector3 cameraPosition, Vector3 target, Vector3 cameraUpVector)
+        {
+            Vector3 a = (cameraPosition - target).Normalize;
+            Vector3 b = (Vector3.Cross(cameraUpVector, a)).Normalize;
+            Vector3 c = Vector3.Cross(a, b);
+
+            return new Matrix4x4(
+                b.x, c.x, a.x, 0f,
+                b.y, c.y, a.y, 0f,
+                b.z, c.z, a.z, 0f,
+                -Vector3.Dot(b, cameraPosition), -Vector3.Dot(c, cameraPosition), -Vector3.Dot(a, cameraPosition), 1
+                );
         }
     }
 }

@@ -6,21 +6,28 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MyXNA
 {
-    class DrawBox
+    class DrawSquare : My.BoneMatrix, IDrawModel
     {
         Matrix[] vertexMatrix;
-        public My.BoneMatrix matrix;
 
         VertexPositionColor[] vertices;
-
-        public DrawBox(My.BoneMatrix transform, Color color, Vector3 size)
+        public Vector3[] VartexPoints
         {
-            matrix = transform;
-            matrix.UpdateEvent += Update;
+            get
+            {
+                Vector3[] result = new Vector3[4] { vertices[0].Position, vertices[1].Position, vertices[2].Position, vertices[4].Position };
+                return result;
+            }
+        }
+
+        public DrawSquare(My.BoneMatrix parent, My.Matrix4x4 transform, Color color, Vector3 size):base(parent)
+        {
+            LocalTransform *= transform;
+            UpdateEvent += Update;
 
             vertexMatrix = new Matrix[6];
             for (int i = 0; i < 6; i++)
-                vertexMatrix[i] = Matrix.Identity;
+                vertexMatrix[i] = Microsoft.Xna.Framework.Matrix.Identity;
             vertexMatrix[0].Translation = new Vector3(-0.1f * size.X, 0.1f * size.Y, 0);
             vertexMatrix[1].Translation = new Vector3(0.1f * size.X, 0.1f * size.Y, 0);
             vertexMatrix[2].Translation = new Vector3(0.1f * size.X, -0.1f * size.Y, 0);
@@ -37,11 +44,11 @@ namespace MyXNA
         {
             for (int i = 0; i < vertices.Length; i++)
             {
-                Vector3 vec = (ChangeXNA.Change(matrix.Matrix) * vertexMatrix[i]).Translation;                
+                Vector3 vec = (vertexMatrix[i] * ChangeXNA.Change(Transform)).Translation;                
                 vertices[i].Position = vec;
             }
         }
-        public void Draw(GraphicsDevice graphics)
+        public void Draw(GraphicsDevice graphics, GameTime time)
         {
             graphics.DrawUserPrimitives<VertexPositionColor>(
                 PrimitiveType.TriangleList,
@@ -51,11 +58,11 @@ namespace MyXNA
                 );
         }
 
-        public void ChengeColor(Color color)
+        public void ChengeColor(params Color[] color)
         {
             for (int i = 0; i < vertices.Length; i++)
             {
-                vertices[i].Color = color;
+                vertices[i].Color = color[i%color.Length];
             }
         }
     }

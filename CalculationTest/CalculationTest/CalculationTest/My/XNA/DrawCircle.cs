@@ -8,7 +8,7 @@ using C3.MonoGame;
 
 namespace MyXNA
 {
-    class DrawCircle : DrawClass
+    class DrawCircle : IDrawSprite
     {
         public Vector2 position = Vector2.Zero;
         public float radius = 5f;
@@ -29,7 +29,7 @@ namespace MyXNA
             this.lineSize = radius;
         }
 
-        public override void Draw(SpriteBatch spriteBatch, GameTime time)
+        public void Draw(SpriteBatch spriteBatch, GameTime time)
         {
             spriteBatch.DrawCircle(position, radius, fineness, color, lineSize);
         }

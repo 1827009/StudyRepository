@@ -7,9 +7,12 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MyXNA
 {
-    abstract class DrawClass
+    interface IDrawSprite
     {
-
         public abstract void Draw(SpriteBatch spriteBatch, GameTime time);
+    }
+    interface IDrawModel
+    {
+        public abstract void Draw(GraphicsDevice graphics, GameTime time);
     }
 }

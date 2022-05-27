@@ -7,11 +7,11 @@ using MyXNA;
 
 namespace CalculationTest.SampleGames
 {
-    class SampleGame3 : SampleGame
+    class SampleGame3Calc : SampleGame
     {
         const float TIME_LINE = 6;
 
-        List<DrawClass> drawClasses = new List<DrawClass>();
+        List<IDrawSprite> drawClasses = new List<IDrawSprite>();
 
         DrawCircle start = new DrawCircle();
         DrawCircle point1 = new DrawCircle();
@@ -26,7 +26,7 @@ namespace CalculationTest.SampleGames
 
         float timeLine = 0;
 
-        public SampleGame3()
+        public SampleGame3Calc()
         {
             start.position = new Vector2(0, Game1.WINDOW_SIZE_X * 0.5f);
 
@@ -51,9 +51,19 @@ namespace CalculationTest.SampleGames
         public override void Update(GameTime time)
         {  
             circle1.position = ChangeXNA.Change(My.Vector2.Lerp(ChangeXNA.Change(start.position), ChangeXNA.Change(end.position), timeLine));
+
+            My.SplineLerp spline = new My.SplineLerp(start.position.Y, point1.position.Y, point2.position.Y, point3.position.Y, point4.position.Y, end.position.Y);
+            List<float> rx = new List<float>();
+            List<float> ry = new List<float>();
+            for (float i = 0f; i < 3.2f; i+=0.1f)
+            {
+                rx.Add(i);
+                ry.Add(spline.Calc(i));
+            }
+
             float a = My.SplineLerp.Spline(Game1.WINDOW_SIZE_Y * timeLine, ChangeXNA.Change(start.position), ChangeXNA.Change(point1.position), ChangeXNA.Change(point2.position), ChangeXNA.Change(point3.position), ChangeXNA.Change(point4.position), ChangeXNA.Change(end.position));
             circle1.position.Y = a;
-            circle1.position.X = My.SplineLerp.Spline(a, ChangeXNA.Change(start.position), ChangeXNA.Change(point1.position), ChangeXNA.Change(point2.position), ChangeXNA.Change(point3.position), ChangeXNA.Change(point4.position), ChangeXNA.Change(end.position)); ;
+            circle1.position.X = Game1.WINDOW_SIZE_Y * timeLine;
             curve.Update(circle1.position);
             if (timeLine < 1)
                 timeLine += (float)time.ElapsedGameTime.TotalSeconds / TIME_LINE;

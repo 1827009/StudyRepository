@@ -6,7 +6,7 @@ using System.Text;
 
 namespace MyXNA
 {
-    class DrawCurveLine:DrawClass
+    class DrawCurveLine:IDrawSprite
     {
         const float FINENESS = 100;
 
@@ -28,7 +28,7 @@ namespace MyXNA
             start = goal;
         }
 
-        public override void Draw(SpriteBatch spriteBatch, GameTime time)
+        public void Draw(SpriteBatch spriteBatch, GameTime time)
         {
             foreach (var item in lines)
             {

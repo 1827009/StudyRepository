@@ -76,5 +76,90 @@ namespace My
 
 			return pnt[idx].y + dx * (q + dx * (r[idx] + s * dx));
 		}
-    }
+
+		public SplineLerp(List<float> y)
+        {
+			InitParametre(y);
+		}
+		public SplineLerp(params float[] y)
+		{
+			InitParametre(new List<float>(y));
+		}
+
+		public float Calc(float t)
+        {
+			int j = (int)(MathF.Floor(t));
+			if (j < 0)
+			{
+				j = 0;
+			}
+			else if (j >= a_.Count)
+            {
+				j = (a_.Count - 1);
+            }
+			float dt = t - j;
+			float result = a_[j] + (b_[j] + (c_[j] + d_[j] * dt) * dt) * dt;
+			return result;
+        }
+
+		List<float> a_ = new List<float>();
+		List<float> b_ = new List<float>();
+		List<float> c_ = new List<float>();
+		List<float> d_ = new List<float>();
+		List<float> w_ = new List<float>();
+
+		void InitParametre(List<float> y)
+		{
+			int ndata = y.Count - 1;
+
+            for (int i = 0; i < ndata; i++)
+            {
+                if (i==0)
+                {
+					c_.Add(0f);
+                }
+				else if (i == ndata)
+                {
+					c_.Add(0f);
+				}
+				else
+				{
+					c_.Add(3f * (a_[i - 1] - 2f * a_[i] + a_[i + 1]));
+				}
+			}
+
+            for (int i = 0; i < ndata; i++)
+            {
+                if (i == 0)
+                {
+					w_.Add(0f);
+                }
+                else
+                {
+					float tmp = 4f - w_[i - 1];
+					c_[i] = (c_[i] - c_[i - 1]) / tmp;
+					w_.Add(1f / tmp);
+                }
+            }
+
+            for (int i = (ndata-1); i < 0; i--)
+            {
+				c_[i] = c_[i] - c_[i + 1] * w_[i];
+            }
+
+            for (int i = 0; i <= ndata; i++)
+            {
+                if (i == ndata)
+                {
+					d_.Add(0f);
+					b_.Add(0f);
+                }
+                else
+                {
+					d_.Add((c_[i + 1] - c_[i]) / 3f);
+					b_.Add(a_[i + 1] - a_[i] - c_[i] - d_[i]);
+                }
+            }
+		}
+	}
 }

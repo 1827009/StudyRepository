@@ -10,50 +10,58 @@ namespace My
 
         public List<BoneMatrix> childs = new List<BoneMatrix>();
 
-        Matrix4x4 localMatrix;
-        Matrix4x4 matrix;
+        Matrix4x4 localTransform;
+        Matrix4x4 transform;
         bool dirtyFlag;
-        public Matrix4x4 LocalMatrix
+        public Matrix4x4 LocalTransform
         {
-            get { return localMatrix; }
+            get { return localTransform; }
             set {
                 dirtyFlag = true;
-                localMatrix = value;                
+                localTransform = value;                
             }
         }
-        public Matrix4x4 Matrix
+        public Vector3 Position
         {
-            get { return matrix; }
+            get { return LocalTransform.Translation; }
+            set {
+                Matrix4x4 matrix = LocalTransform;
+                matrix.Translation = value;
+                LocalTransform = matrix;
+            }
+        }
+        public Matrix4x4 Transform
+        {
+            get { return transform; }
         }
 
-        public BoneMatrix(int dimension)
+        public BoneMatrix()
         {
-            this.LocalMatrix = Matrix4x4.Identity;
-            this.matrix = LocalMatrix;
+            this.LocalTransform = Matrix4x4.Identity;
+            this.transform = LocalTransform;
         }
         public BoneMatrix(BoneMatrix parent)
         {
-            this.LocalMatrix = Matrix4x4.Identity;
-            this.matrix = LocalMatrix;
+            this.LocalTransform = Matrix4x4.Identity;
+            this.transform = LocalTransform;
             parent.childs.Add(this);
         }
         public BoneMatrix(BoneMatrix parent, Matrix4x4 matrix)
         {
-            this.LocalMatrix = matrix;
-            this.matrix = LocalMatrix;
+            this.LocalTransform = matrix;
+            this.transform = LocalTransform;
             parent.childs.Add(this);
         }
 
         public void Update(BoneMatrix parent, bool dirty=false)
         {
-            dirtyFlag |= dirty;
+            dirty |= dirtyFlag;
 
-            if (dirtyFlag)
+            if (dirty)
             {
-                matrix = parent.matrix * localMatrix;
-                dirtyFlag = false;
-
+                transform = localTransform * parent.transform;
                 UpdateEvent?.Invoke();
+                dirtyFlag = false;
             }
 
             // 子の更新

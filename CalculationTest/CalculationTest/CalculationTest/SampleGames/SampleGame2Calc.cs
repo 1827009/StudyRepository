@@ -7,11 +7,11 @@ using MyXNA;
 
 namespace CalculationTest.SampleGames
 {
-    class SampleGame2 : SampleGame
+    class SampleGame2Calc : SampleGame
     {
         const float TIME_LINE = 5;
 
-        List<DrawClass> drawClasses = new List<DrawClass>();
+        List<IDrawSprite> drawClasses = new List<IDrawSprite>();
 
         DrawCircle start = new DrawCircle();
         DrawCircle end = new DrawCircle();
@@ -23,7 +23,7 @@ namespace CalculationTest.SampleGames
 
         float timeLine = 0;
 
-        public SampleGame2()
+        public SampleGame2Calc()
         {
             start.position = Vector2.Zero;
             end.position = new Vector2(Game1.WINDOW_SIZE_X, Game1.WINDOW_SIZE_Y);

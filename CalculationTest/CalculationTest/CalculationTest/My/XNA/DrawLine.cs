@@ -8,7 +8,7 @@ using C3.MonoGame;
 
 namespace MyXNA
 {
-    class DrawLine:DrawClass
+    class DrawLine:IDrawSprite
     {
         public Vector2 startPosition;
         public Vector2 endPosition;
@@ -25,7 +25,7 @@ namespace MyXNA
             this.endPosition = end;
             this.color = color;
         }
-        public override void Draw(SpriteBatch spriteBatch, GameTime time)
+        public void Draw(SpriteBatch spriteBatch, GameTime time)
         {
             spriteBatch.DrawLine(startPosition, endPosition, color);
         }

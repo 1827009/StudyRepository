@@ -12,6 +12,22 @@ namespace My
         public static readonly Vector3 ZERO = new Vector3(0, 0, 0);
         public static readonly Vector3 ONE = new Vector3(1, 1, 1);
 
+        public Vector2 xy
+        {
+            get { return new Vector2(x, y); }
+        }
+        public float Lange
+        {
+            get { return MathF.Sqrt(x * x + y * y + z * z); }
+        }
+        public Vector3 Normalize
+        {
+            get {
+                float mag = 1 / Lange;
+                return new Vector3(x * mag, y * mag, z * mag);
+            }
+        }
+
         public Vector3(float x, float y, float z)
         {
             this.x = x;
@@ -35,7 +51,6 @@ namespace My
             Vector3 vec = (end - start)*now;
             return start + vec;
         }
-
         public static Vector3 Cross(Vector3 a, Vector3 b)
         {
             Vector3 result;
@@ -43,6 +58,10 @@ namespace My
             result.y = -a.x * b.z + b.x * a.z;
             result.z = a.x * b.y - b.x * a.y;
             return result;
+        }
+        public static float Dot(Vector3 a, Vector3 b)
+        {
+            return a.x * b.x + a.y * b.y + a.z * b.z;
         }
 
         public static Vector3 operator +(Vector3 a, Vector3 b)
@@ -77,6 +96,14 @@ namespace My
             output.z = a.z * b;
             return output;
         }
+        public static Vector3 operator *(float a, Vector3 b)
+        {
+            Vector3 output;
+            output.x = a * b.x;
+            output.y = a * b.y;
+            output.z = a * b.z;
+            return output;
+        }
         public static Vector3 operator /(Vector3 a, float b)
         {
             Vector3 output = a;
@@ -105,6 +132,11 @@ namespace My
         public float y;
         public static readonly Vector2 ZERO = new Vector2(0, 0);
         public static readonly Vector2 ONE = new Vector2(1, 1);
+
+        public Vector3 xy0
+        {
+            get { return new Vector3(x, y, 0); }
+        }
 
         public override string ToString()
         {

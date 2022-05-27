@@ -9,7 +9,10 @@ namespace CalculationTest
 {
     abstract class SampleGame
     {
+
+
         abstract public void Update(GameTime time);
-        abstract public void Draw(SpriteBatch spriteBatch, GameTime time);
+        public virtual void Draw(SpriteBatch spriteBatch, GameTime time) { }
+        public virtual void Draw(GraphicsDevice graphics, GameTime time) { }
     }
 }
