@@ -56,11 +56,17 @@ namespace MyXNA
         }
         private void UpdateView()
         {
+            My.Quaternion p = My.Quaternion.CreateRotate(Position, angle);
+            My.Quaternion q = My.Quaternion.CreateRotate(new My.Vector3(0, 1, 0), angle);
+            
+            My.Vector3 vectorP = new My.Vector3(p.x, p.y, p.z);
+            Vector3 vectorR = new Vector3(q.x, q.y, q.z);
+
             var radian = MathHelper.ToRadians(angle);
             var rotate = Matrix.CreateRotationZ(radian);
-            var upVector = Vector3.Transform(Vector3.Up, rotate);
+            var upVector = ChangeXNA.Change(Vector3.Transform(Vector3.Left, rotate));
             //var view1 = Matrix.CreateLookAt(ChangeXNA.Change(this.Position), ChangeXNA.Change(target.Transform.Translation), upVector);
-             view = ChangeXNA.Change(My.Matrix4x4.ViewMatrix(this.Position, target.Transform.Translation, ChangeXNA.Change(upVector)));
+            view = ChangeXNA.Change(My.Matrix4x4.ViewMatrix(Position, target.Transform.Translation, My.Vector3.UP));
         }
 
         My.Perlin perlin = new My.Perlin();
@@ -78,13 +84,27 @@ namespace MyXNA
         public void MoveUpdate()
         {
             if (InputManager.IsKeyDown(Keys.D) || InputManager.IsKeyDown(Keys.Right))
-                LocalTransform = My.Matrix4x4.CreateRotationY(MathHelper.ToRadians(1)) * LocalTransform;
+            {
+                angle += 0.1f;
+                UpdateView();
+                //LocalTransform = My.Matrix4x4.CreateRotationY(MathHelper.ToRadians(1)) * LocalTransform;
+            }
             if (InputManager.IsKeyDown(Keys.A) || InputManager.IsKeyDown(Keys.Left))
-                LocalTransform = My.Matrix4x4.CreateRotationY(MathHelper.ToRadians(-1)) * LocalTransform;
+            {
+                angle -= 0.1f;
+                UpdateView();
+                //LocalTransform = My.Matrix4x4.CreateRotationY(MathHelper.ToRadians(-1)) * LocalTransform;
+            }
             if (InputManager.IsKeyDown(Keys.W) || InputManager.IsKeyDown(Keys.Up))
+            {
+                UpdateView();
                 LocalTransform = My.Matrix4x4.CreateTrancerate(new My.Vector3(0, 0, -0.01f)) * LocalTransform;
+            }
             if (InputManager.IsKeyDown(Keys.S) || InputManager.IsKeyDown(Keys.Down))
+            {
+                UpdateView();
                 LocalTransform = My.Matrix4x4.CreateTrancerate(new My.Vector3(0, 0, 0.01f)) * LocalTransform;
+            }
         }
     }
 }

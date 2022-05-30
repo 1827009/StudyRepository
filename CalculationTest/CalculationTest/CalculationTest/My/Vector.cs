@@ -11,6 +11,7 @@ namespace My
         public float z;
         public static readonly Vector3 ZERO = new Vector3(0, 0, 0);
         public static readonly Vector3 ONE = new Vector3(1, 1, 1);
+        public static readonly Vector3 UP = new Vector3(0, 1, 0);
 
         public Vector2 xy
         {

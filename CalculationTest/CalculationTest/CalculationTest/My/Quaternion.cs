@@ -19,29 +19,35 @@ namespace My
             this.w = w;
         }
 
-        public static Quaternion operator*(Quaternion a, Quaternion b)
+        public static Quaternion CreateRotate(Vector3 axis, float angle)
         {
-            Quaternion result;
-            Vector3 aVec = new Vector3(a.x, a.y, a.z);
-            Vector3 bVec = new Vector3(b.x, b.y, b.z);
-            float ansW = (a.w * b.w - Vector3.Dot(aVec, bVec));
-            Vector3 ansXYZ = a.w * bVec + b.w * aVec + aVec + bVec;
-            result = new Quaternion(ansXYZ.x, ansXYZ.y, ansXYZ.z, ansW);
+            axis = axis.Normalize;
+            angle *= 0.5f;
+            float sin = MathF.Sin(angle);
+            float cos = MathF.Cos(angle);
+
+            Quaternion result = new Quaternion(axis.x * sin, axis.y * sin, axis.z * sin, cos);
 
             return result;
         }
 
-        public void Rotate(float rag, Vector3 vec)
+        public static Quaternion operator*(Quaternion a, Quaternion b)
         {
-            float sin = MathF.Sin(rag * 0.5f);
-            Quaternion q = new Quaternion(vec.x * sin, vec.y * sin, vec.z * sin, MathF.Cos(rag * 0.5f));
-            Quaternion r = new Quaternion(-vec.x * sin, -vec.y * sin, -vec.z * sin, MathF.Cos(rag * 0.5f));
+            Quaternion result;
+            float num = (a.y * b.z) - (a.z * b.y);
+            float num2 = (a.z * b.x) - (a.x * b.z);
+            float num3 = (a.x * b.y) - (a.y * b.x);
+            float num4 = (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
 
-            Quaternion result = r * this * q;
-            this.x = result.x;
-            this.y = result.y;
-            this.z = result.z;
-            this.w = result.w;
+            result = new Quaternion(
+                ((a.x * b.w) + (b.x * a.w)) + num,
+                ((a.y * b.w) + (b.y * a.w)) + num2,
+                ((a.z * b.w) + (b.z * a.w)) + num3,
+                (a.w * b.w) - num4
+                );
+
+            return result;
         }
+
     }
 }

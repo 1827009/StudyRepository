@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CalculationTest.My.XNA
+namespace MyXNA
 {
     class QuaternionCamera
     {
