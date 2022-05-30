@@ -14,8 +14,8 @@ namespace CalculationTest
         public static readonly int WINDOW_SIZE_Y=900;
         BasicEffect effect;
 
-        My.BoneMatrix rootWorld = new My.BoneMatrix();
-        Camera camera;
+        My.BoneTransform rootWorld = new My.BoneTransform();
+        Camera_Transform camera;
 
         SampleGame game;
 
@@ -27,7 +27,7 @@ namespace CalculationTest
             _graphics.PreferredBackBufferWidth = WINDOW_SIZE_X;
             _graphics.PreferredBackBufferHeight = WINDOW_SIZE_Y;
 
-            camera = new Camera(rootWorld);
+            camera = new Camera_Transform(rootWorld);
             camera.Position = new My.Vector3(0, 1, 2);
         }
 

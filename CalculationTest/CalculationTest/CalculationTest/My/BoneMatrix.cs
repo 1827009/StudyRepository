@@ -4,6 +4,10 @@ using System.Text;
 
 namespace My
 {
+    /// <summary>
+    /// Matrixで親を持ち、Boon構造を作るクラス。
+    /// メンバとして持たせても継承してもよい
+    /// </summary>
     class BoneMatrix
     {
         public Action UpdateEvent;

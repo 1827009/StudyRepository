@@ -19,6 +19,36 @@ namespace My
             this.w = w;
         }
 
+        public static Quaternion Identity
+        {
+            get { return new Quaternion(0, 0, 0, 1); }
+        }
+
+        public Matrix4x4 ToMatrix
+        {
+            get
+            {
+                float m11 = 1 - 2 * (y * y) - 2 * (z * z);
+                float m12 = 2 * x * y - 2 * w * z;
+                float m13 = 2 * x * z - 2 * w * y;
+
+                float m21 = 2 * x * y - 2 * w * z;
+                float m22 = 1 - 2 * (x * x) - 2 * (z * z);
+                float m23 = 2 * y * z - 2 * w * x;
+
+                float m31 = 2 * x * z - 2 * w * y;
+                float m32 = 2 * y * z - 2 * w * x;
+                float m33 = 1 - 2 * (x * x) - 2 * (y * y);
+
+                return new Matrix4x4(
+                    m11, m12, m13, 0,
+                    m21, m22, m23, 0,
+                    m31, m32, m33, 0,
+                    0, 0, 0, 1
+                    );
+            }
+        }
+
         public static Quaternion CreateRotate(Vector3 axis, float angle)
         {
             axis = axis.Normalize;
