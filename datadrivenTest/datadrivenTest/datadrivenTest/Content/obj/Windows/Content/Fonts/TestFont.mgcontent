@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>C:/Users/ichikawa.mitsuhiro/Documents/project/KensyuGit/datadrivenTest/datadrivenTest/datadrivenTest/Content/Fonts/TestFont.spritefont</SourceFile>
+  <SourceFile>C:/Users/ichikawa.mitsuhiro/Documents/project/KensyuGit/DatadrivenTest/datadrivenTest/datadrivenTest/Content/Fonts/TestFont.spritefont</SourceFile>
   <SourceTime>2022-05-10T16:47:51.7845718+09:00</SourceTime>
-  <DestFile>C:/Users/ichikawa.mitsuhiro/Documents/project/KensyuGit/datadrivenTest/datadrivenTest/datadrivenTest/Content/bin/Windows/Content/Fonts/TestFont.xnb</DestFile>
-  <DestTime>2022-05-17T10:06:31.6223764+09:00</DestTime>
+  <DestFile>C:/Users/ichikawa.mitsuhiro/Documents/project/KensyuGit/DatadrivenTest/datadrivenTest/datadrivenTest/Content/bin/Windows/Content/Fonts/TestFont.xnb</DestFile>
+  <DestTime>2022-05-31T17:12:08.8664183+09:00</DestTime>
   <Importer>FontDescriptionImporter</Importer>
   <ImporterTime>2020-08-11T01:17:54+09:00</ImporterTime>
   <Processor>FontDescriptionProcessor</Processor>

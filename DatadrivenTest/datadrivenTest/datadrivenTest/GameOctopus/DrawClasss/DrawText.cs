@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 
+
 namespace datadrivenTest.GameOctopus.DrawClasss
 {
     class DrawText:My.BoneMatrix
@@ -18,7 +19,7 @@ namespace datadrivenTest.GameOctopus.DrawClasss
 
         public DrawText(ContentManager content, My.BoneMatrix parent, Vector3 pos):base(parent)
         {
-            LocalMatrix = My.Matrix4x4.CreateTrancerate(MyXNA.ChangeXNA.Change(pos));
+            LocalTransform = My.Matrix4x4.CreateTrancerate(MyXNA.ChangeXNA.Change(pos));
 
             this.content = content;
 
@@ -26,7 +27,7 @@ namespace datadrivenTest.GameOctopus.DrawClasss
         }
         public void Draw(SpriteBatch spriteBatch, string text)
         {
-            spriteBatch.DrawString(font, text, MyXNA.ChangeXNA.Change(Matrix.Translation.xy), Color.Black);
+            spriteBatch.DrawString(font, text, MyXNA.ChangeXNA.Change(Transform.Translation.xy), Color.Black);
         }
     }
 }

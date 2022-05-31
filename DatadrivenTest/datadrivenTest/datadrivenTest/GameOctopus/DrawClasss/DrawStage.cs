@@ -48,10 +48,10 @@ namespace datadrivenTest.GameOctopus.DrawClasss
 
             for (int i = 0; i < buckGround.Count; i++)
             {
-                buckGround[i].LocalMatrix = My.Vector3.CreateTrancerate(new My.Vector3(buckGround[0].texture.Width * i, 0, 0));
+                buckGround[i].LocalTransform = My.Vector3.CreateTrancerate(new My.Vector3(buckGround[0].texture.Width * i, 0, 0));
             }
             float texpos = (Game1.WINDOW_SIZE_X * 0.5f) - (buckGround[0].texture.Width * 0.5f * buckGround.Count);
-            LocalMatrix = My.Matrix4x4.CreateTrancerate(new My.Vector3(texpos, 0, 0));
+            LocalTransform = My.Matrix4x4.CreateTrancerate(new My.Vector3(texpos, 0, 0));
 
             stockTextures = new DrawTexture("Images/stock", this, new Vector3(230f, 100f, 0), content);
         }
@@ -65,7 +65,7 @@ namespace datadrivenTest.GameOctopus.DrawClasss
             }
             for (int i = 0; i < stage.player.stock; i++)
             {
-                stockTextures.Draw(new Vector3(27 * i + 62 , 7, 0) + MyXNA.ChangeXNA.Change(Matrix.Translation), spriteBatch);
+                stockTextures.Draw(new Vector3(27 * i + 62 , 7, 0) + MyXNA.ChangeXNA.Change(Transform.Translation), spriteBatch);
             }
             foreach (var item in drawOctopus)
             {

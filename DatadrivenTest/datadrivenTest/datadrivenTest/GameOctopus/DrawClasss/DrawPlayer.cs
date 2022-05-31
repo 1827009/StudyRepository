@@ -107,7 +107,7 @@ namespace datadrivenTest.GameOctopus.DrawClasss
             }
             result += new Vector2(304, 0) * page;
 
-            LocalMatrix = My.Matrix4x4.CreateTrancerate(MyXNA.ChangeXNA.Change(result).xy0);
+            LocalTransform = My.Matrix4x4.CreateTrancerate(MyXNA.ChangeXNA.Change(result).xy0);
         }
     }
 }

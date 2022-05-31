@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ichikawa.mitsuhiro\\Documents\\project\\KensyuGit\\datadrivenTest\\datadrivenTest\\datadrivenTest\\datadrivenTest.csproj": {}
+    "C:\\Users\\ichikawa.mitsuhiro\\Documents\\project\\KensyuGit\\DatadrivenTest\\datadrivenTest\\datadrivenTest\\datadrivenTest.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ichikawa.mitsuhiro\\Documents\\project\\KensyuGit\\datadrivenTest\\datadrivenTest\\datadrivenTest\\datadrivenTest.csproj": {
+    "C:\\Users\\ichikawa.mitsuhiro\\Documents\\project\\KensyuGit\\DatadrivenTest\\datadrivenTest\\datadrivenTest\\datadrivenTest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ichikawa.mitsuhiro\\Documents\\project\\KensyuGit\\datadrivenTest\\datadrivenTest\\datadrivenTest\\datadrivenTest.csproj",
+        "projectUniqueName": "C:\\Users\\ichikawa.mitsuhiro\\Documents\\project\\KensyuGit\\DatadrivenTest\\datadrivenTest\\datadrivenTest\\datadrivenTest.csproj",
         "projectName": "datadrivenTest",
-        "projectPath": "C:\\Users\\ichikawa.mitsuhiro\\Documents\\project\\KensyuGit\\datadrivenTest\\datadrivenTest\\datadrivenTest\\datadrivenTest.csproj",
+        "projectPath": "C:\\Users\\ichikawa.mitsuhiro\\Documents\\project\\KensyuGit\\DatadrivenTest\\datadrivenTest\\datadrivenTest\\datadrivenTest.csproj",
         "packagesPath": "C:\\Users\\ichikawa.mitsuhiro\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ichikawa.mitsuhiro\\Documents\\project\\KensyuGit\\datadrivenTest\\datadrivenTest\\datadrivenTest\\obj\\",
+        "outputPath": "C:\\Users\\ichikawa.mitsuhiro\\Documents\\project\\KensyuGit\\DatadrivenTest\\datadrivenTest\\datadrivenTest\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
