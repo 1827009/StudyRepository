@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 249bfd17a91c2754e9755fb13578aaff
+  m_SerializeEntries:
+  - m_GUID: 1a96d42484434d246b4ac7978e87b1db
+    m_Address: Assets/Resources_moved/Materials/RedMaterial.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 2100000, guid: 1a96d42484434d246b4ac7978e87b1db, type: 2}
+    m_TargetAsset: {fileID: 2100000, guid: 1a96d42484434d246b4ac7978e87b1db, type: 2}
+  - m_GUID: 4c2216c036ebda4498f98583d87b3861
+    m_Address: Assets/Resources_moved/Materials/backGrawnd.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: 7fa8dabda3eab5248a3656699ba3a2e2
+    m_Address: Assets/Resources_moved/Prefabs/Bullet.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: 92f6ac9e9278e4842bf004955fe8efa7
+    m_Address: Plane
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 2305556547984603020, guid: 92f6ac9e9278e4842bf004955fe8efa7,
+      type: 3}
+    m_TargetAsset: {fileID: 2305556547984603020, guid: 92f6ac9e9278e4842bf004955fe8efa7,
+      type: 3}
+  - m_GUID: ace6be073a9f8104d93c768b6caea37e
+    m_Address: Assets/Resources_moved/Materials/BlueMaterial.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: d801addfc20efe046b20d7d972a41f6d
+    m_Address: Assets/Resources_moved/Materials/Test1.mat
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 2100000, guid: d801addfc20efe046b20d7d972a41f6d, type: 2}
+    m_TargetAsset: {fileID: 2100000, guid: d801addfc20efe046b20d7d972a41f6d, type: 2}
+  - m_GUID: df3afdf4f84d8494abde1a92e61199e1
+    m_Address: Assets/Resources_moved/Prefabs/Enemy.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: be3e6309c8f235642962894eb91ec3a7, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 9d8d45d05d894094885324c96544720d, type: 2}
+    - {fileID: 11400000, guid: b5ebadc043d04cd4283259cfcea0fdb9, type: 2}

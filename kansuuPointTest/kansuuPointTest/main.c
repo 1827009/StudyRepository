@@ -4,9 +4,9 @@ int Sample2(char* text);
 int Sample3(char* text);
 int main(int argc, char const *argv[])
 {
-    char* text="SampleText";
+    char* text="SampleText\n";
     int (*point)(char*)=Sample;
-    int i = (*point)(text);
+    point(text);
 
     int (*points[])(char*)={Sample,Sample2,Sample3};
     for (int i = 0; i < 3; i++)
