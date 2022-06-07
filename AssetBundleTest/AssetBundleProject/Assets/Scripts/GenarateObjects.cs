@@ -21,7 +21,7 @@ public class GenarateObjects : MonoBehaviour
     async void Start()
     {
         enemy = Addressables.LoadAssetAsync<GameObject>(enemyPrefabs);
-        var dl = Addressables.DownloadDependenciesAsync(enemyPrefabs);
+        mate = Addressables.DownloadDependenciesAsync(enemyPrefabs);
         await enemy.Task;
         await Genarate(_cancellationTokenSource.Token);
     }
@@ -45,8 +45,8 @@ public class GenarateObjects : MonoBehaviour
     {
         Debug.Log("敵のResourceのリリース開始");
         _cancellationTokenSource.Cancel();
-        Addressables.ReleaseInstance(mate);
         Addressables.ReleaseInstance(enemy);
+        Addressables.ReleaseInstance(mate);
         Debug.Log("敵のResourceのリリース完了");
 
         Application.Quit();
