@@ -292,3 +292,4 @@ C:\Users\ichikawa.mitsuhiro\Documents\project\KensyuGit\AssetBundleTest\AssetBun
 C:\Users\ichikawa.mitsuhiro\Documents\project\KensyuGit\AssetBundleTest\AssetBundleProject\Temp\bin\Debug\UniTask.DOTween.pdb
 C:\Users\ichikawa.mitsuhiro\Documents\project\KensyuGit\AssetBundleTest\AssetBundleProject\Temp\bin\Debug\UniTask.TextMeshPro.pdb
 C:\Users\ichikawa.mitsuhiro\Documents\project\KensyuGit\AssetBundleTest\AssetBundleProject\Temp\bin\Debug\UniTask.Linq.pdb
+C:\Users\ichikawa.mitsuhiro\Documents\project\KensyuGit\AssetBundleTest\AssetBundleProject\Temp\bin\Debug\UniRx.pdb
